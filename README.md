@@ -5,6 +5,9 @@ people who want to get fit — beginners first, no experience assumed.
 
 Built with plain HTML, CSS and vanilla JavaScript. No build step, no dependencies.
 
+![The Barbell Brigade hero section — the headline "You don't need to be fit to start here." over a
+dark gym backdrop, with the sticky nav and the free-week call to action](assets/screenshot.jpg)
+
 ## Run it
 
 **Easiest — VS Code Live Server:**
@@ -33,6 +36,18 @@ redeploy. New site files ship automatically; the workflow excludes rather than a
 | `script.js` | Mobile nav, scroll spy, reveal animations, stat counters, carousel, form validation |
 | `assets/logo.svg` | Standalone barbell logo (also inlined in the header so CSS can recolour it) |
 | `assets/favicon.svg` | Rounded-square version of the mark for the browser tab |
+| `assets/screenshot.jpg` | The hero shot at the top of this README |
+| `.mcp.json` | Registers the Playwright MCP server, used to retake that screenshot |
+
+## Retaking the screenshot
+
+`.mcp.json` wires up [Playwright MCP](https://github.com/microsoft/playwright-mcp) at the project
+level, so any MCP client opened in this folder can drive a real browser over the site. It shells
+out to `npx`, so Node.js is the only prerequisite — the package downloads on first run.
+
+The current image is a 1440×900 viewport at 2× DPI with `prefers-reduced-motion: reduce`
+emulated, which is what makes the reveal animations settle instead of catching the page
+mid-fade.
 
 ## Brand
 

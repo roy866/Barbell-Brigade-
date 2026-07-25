@@ -48,6 +48,7 @@ jobs:
             --exclude '.git' \
             --exclude '.github' \
             --exclude '.claude' \
+            --exclude '.mcp.json' \
             --exclude '_site' \
             --exclude 'README.md' \
             --exclude 'CLAUDE.md' \
