@@ -202,6 +202,11 @@
 
     function startAutoplay() {
       if (prefersReducedMotion) return;
+      // Clear before starting: mouseleave and focusout both land here, so two
+      // starts can arrive without a stop between them. Without this, the older
+      // interval keeps firing with its handle overwritten — unreachable by
+      // stopAutoplay(), so hover no longer pauses and the carousel speeds up.
+      stopAutoplay();
       autoplayTimer = window.setInterval(function () {
         goTo(index + 1);
       }, AUTOPLAY_MS);
