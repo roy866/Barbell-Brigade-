@@ -32,12 +32,26 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      # No build step — the repo root is already the finished site, so the
-      # whole thing ships as-is.
+      # No build step — but the repo root holds docs and CI config that have no
+      # business being served, so mirror everything except those into _site.
+      # Exclusions rather than an allow-list, so new site files ship
+      # automatically without anyone remembering to update this.
+      - name: Stage the site
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'README.md' \
+            --exclude 'CLAUDE.md' \
+            ./ _site/
+          echo "Publishing:" && find _site -type f | sort
+
       - name: Upload the site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Deploy
         id: deployment
