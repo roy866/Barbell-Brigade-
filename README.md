@@ -15,6 +15,15 @@ Built with plain HTML, CSS and vanilla JavaScript. No build step, no dependencie
 **Or just open the file:** double-click `index.html`. Everything works except the Google Fonts
 and placeholder images, which need an internet connection.
 
+## Live site
+
+<https://roy866.github.io/Barbell-Brigade-/>
+
+Every push to `main` republishes it — `.github/workflows/deploy.yml` copies the repo into
+GitHub Pages, minus `.git`, `.github`, `README.md` and `CLAUDE.md`. There's no build step, so a
+push is the whole deploy. The Actions tab also has a **Run workflow** button for a manual
+redeploy. New site files ship automatically; the workflow excludes rather than allow-lists.
+
 ## Files
 
 | File | Purpose |
