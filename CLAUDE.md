@@ -74,7 +74,9 @@ literal hex fills. Changing the mark means updating all four.
 
 ## Known placeholders
 
-Both forms `console.log` their payload instead of posting anywhere (`script.js` §6 and §7). All
+The contact form posts to FormSubmit (`ENQUIRY_ENDPOINT` in `script.js` §6) and is real, but
+delivery depends on someone having clicked FormSubmit's one-time activation email — until then
+submissions go nowhere. The newsletter form still `console.log`s its payload (§7). All
 imagery is `picsum.photos` with stable `seed` values, and the contact map is a CSS-striped `div`,
 not a real embed. Coach names, quotes, prices and the timetable are illustrative copy. Don't
 treat any of these as working integrations.

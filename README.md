@@ -188,12 +188,22 @@ whichever layer introduces it.
 
 ## Wiring it up for real
 
-Two things are placeholders and need swapping before launch:
+1. **The contact form is live** and posts to [FormSubmit](https://formsubmit.co), which relays to
+   the address in `ENQUIRY_ENDPOINT` at the top of `script.js` section 6. Two things to know:
 
-1. **Forms** — both the contact form and newsletter signup currently `console.log` their payload.
-   Point them at your form handler (Formspree, Netlify Forms, or your own endpoint) in
-   `script.js` sections 6 and 7.
-2. **Images** — every photo is a `picsum.photos` placeholder. Replace the `src` values in
+   - **The first submission must be confirmed.** FormSubmit emails an activation link to that
+     address on the very first POST. Until someone clicks it, submissions are accepted by the
+     browser and never delivered.
+   - **The address is in the page source**, where scrapers can read it. After activating,
+     FormSubmit issues an alias (`formsubmit.co/ajax/<hash>`) that reaches the same inbox
+     without publishing it. Swap it into `ENQUIRY_ENDPOINT`; nothing else changes.
+
+   A failed send never shows the success message — it tells the visitor to email
+   `CONTACT_FALLBACK` instead, so a silent failure can't swallow an enquiry.
+
+2. **The newsletter signup still only `console.log`s** its payload (`script.js` section 7). It
+   needs the same treatment before launch.
+3. **Images** — every photo is a `picsum.photos` placeholder. Replace the `src` values in
    `index.html` with real gym and coach photography at the same aspect ratios (programs are 4:3,
    coaches 4:5, hero 16:10 or wider). The map block in the contact section is a styled `div` —
    drop a Google Maps embed iframe in its place.

@@ -257,6 +257,30 @@
 
   if (contactForm) {
     var formStatus = document.getElementById("formStatus");
+    var submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    // Where enquiries go. FormSubmit relays to this address; it needs no
+    // account, but the FIRST submission triggers a confirmation email that
+    // must be clicked before anything is delivered.
+    //
+    // The address is visible in the page source here, which is scrapeable.
+    // After activating, FormSubmit issues an alias (formsubmit.co/ajax/<hash>)
+    // that relays to the same inbox without publishing it — swap it in below
+    // and nothing else needs to change.
+    var ENQUIRY_ENDPOINT = "https://formsubmit.co/ajax/roy@steerconstruction.com";
+    var CONTACT_FALLBACK = "roy@steerconstruction.com";
+    var HONEYPOT_FIELD = "_honey";
+
+    // The goal <select> submits terse values; the notification email is easier
+    // to read with the words the member actually chose.
+    var GOAL_LABELS = {
+      general: "Just get fit and feel better",
+      strength: "Get stronger",
+      weight: "Lose weight",
+      return: "Return after a break or injury",
+      performance: "Train for a sport or event",
+    };
+
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     var PHONE_RE = /^[+()\d\s-]{7,20}$/;
     // Local numbers run to 8 digits here and 10 with the country code; 7 is a
@@ -352,19 +376,62 @@
         return;
       }
 
-      // No backend on this build — log the payload so it is easy to wire up later.
       var payload = {};
       new FormData(contactForm).forEach(function (value, key) {
         payload[key] = typeof value === "string" ? value.trim() : value;
       });
-      console.log("Free week request:", payload);
+
+      // Bots fill every field they find. A real person never sees this one, so
+      // anything in it means the submission is automated — drop it silently
+      // rather than bouncing it, which would only tell the bot to try again.
+      if (payload[HONEYPOT_FIELD]) {
+        contactForm.reset();
+        return;
+      }
+      delete payload[HONEYPOT_FIELD];
 
       // Split on whitespace rather than a single space: an untrimmed leading
       // space made split(" ")[0] return "", greeting the member as "Thanks  —".
       var firstName = payload.name.split(/\s+/)[0];
-      formStatus.textContent =
-        "Thanks " + firstName + " — we'll be in touch within one working day.";
-      contactForm.reset();
+
+      submitBtn.disabled = true;
+      formStatus.style.color = "";
+      formStatus.textContent = "Sending…";
+
+      window
+        .fetch(ENQUIRY_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: payload.name,
+            email: payload.email,
+            phone: payload.phone,
+            goal: GOAL_LABELS[payload.goal] || payload.goal,
+            message: payload.message,
+            _subject: "Free week request — " + payload.name,
+            // FormSubmit shows its own captcha page otherwise, which breaks the
+            // AJAX flow: the POST resolves but no mail is ever sent.
+            _captcha: "false",
+          }),
+        })
+        .then(function (response) {
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          formStatus.style.color = "";
+          formStatus.textContent =
+            "Thanks " + firstName + " — we'll be in touch within one working day.";
+          contactForm.reset();
+        })
+        .catch(function (error) {
+          // Never claim success we cannot verify — a swallowed failure here
+          // means an enquiry nobody follows up on. Give them another route.
+          formStatus.style.color = "var(--danger)";
+          formStatus.textContent =
+            "Sorry — that didn't send. Please email " + CONTACT_FALLBACK + " and we'll pick it up.";
+          if (window.console) console.error("Enquiry submission failed:", error);
+        })
+        .then(function () {
+          submitBtn.disabled = false;
+        });
     });
   }
 

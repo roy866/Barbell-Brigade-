@@ -3,20 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Barbell Brigade | Strength Training for Everyone</title>
+    <!-- Search intent first, brand last: nobody searches the gym by name until
+         after they have joined. "Singapore" is doing the heavy lifting here —
+         this is a local business and location is the query, not a detail. -->
+    <title>Strength Gym for Beginners in Singapore | Barbell Brigade</title>
     <meta
       name="description"
-      content="Barbell Brigade is a strength and conditioning gym for people who want to get fit. Coached sessions, small classes, and a first week free."
+      content="Coached strength training in Singapore for people starting from zero. Classes cap at 12, your first session is one-on-one, and your first week is free."
     />
+    <link rel="canonical" href="https://roy866.github.io/Barbell-Brigade-/" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph. Absolute URLs and a raster image are both required: a
+         relative path or an SVG makes the card render blank on every platform. -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Barbell Brigade | Strength Training for Everyone" />
+    <meta property="og:site_name" content="Barbell Brigade" />
+    <meta property="og:locale" content="en_SG" />
+    <meta property="og:url" content="https://roy866.github.io/Barbell-Brigade-/" />
+    <meta property="og:title" content="Strength Gym for Beginners in Singapore | Barbell Brigade" />
     <meta
       property="og:description"
       content="Coached strength training for real people. No egos, no guesswork. Your first week is free."
     />
-    <meta property="og:image" content="assets/logo.svg" />
+    <meta
+      property="og:image"
+      content="https://roy866.github.io/Barbell-Brigade-/assets/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Barbell Brigade — you don't need to be fit to start here"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Strength Gym for Beginners in Singapore | Barbell Brigade" />
+    <meta
+      name="twitter:description"
+      content="Coached strength training for real people. No egos, no guesswork. Your first week is free."
+    />
+    <meta
+      name="twitter:image"
+      content="https://roy866.github.io/Barbell-Brigade-/assets/og-image.png"
+    />
+
+    <meta name="theme-color" content="#0d0d0d" />
 
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,6 +56,93 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- Structured data. Everything below is duplicated from visible copy on
+         this page on purpose — Google discards markup that claims things the
+         page does not say. Change a price, an opening hour or the address in
+         the markup and you must change it here too, or the two disagree.
+
+         Deliberately absent: aggregateRating and geo coordinates. There are no
+         real reviews or a surveyed location behind this build, and inventing
+         either is the one schema mistake that earns a manual action. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "HealthClub",
+            "@id": "https://roy866.github.io/Barbell-Brigade-/#gym",
+            "name": "Barbell Brigade",
+            "description": "Coached strength and conditioning gym in Singapore for people who want to get fit. Beginner on-ramp, classes capped at 12, first week free.",
+            "url": "https://roy866.github.io/Barbell-Brigade-/",
+            "image": "https://roy866.github.io/Barbell-Brigade-/assets/og-image.png",
+            "logo": "https://roy866.github.io/Barbell-Brigade-/assets/logo.svg",
+            "telephone": "+65 6123 4567",
+            "email": "hello@barbellbrigade.com",
+            "priceRange": "$79-$229 per month",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "18 Ironworks Lane, Unit 04",
+              "addressLocality": "Singapore",
+              "postalCode": "049513",
+              "addressCountry": "SG"
+            },
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                "opens": "05:30",
+                "closes": "21:30"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "Saturday",
+                "opens": "07:00",
+                "closes": "14:00"
+              }
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Memberships",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "name": "Starter",
+                  "description": "Eight coached group sessions a month, Foundations on-ramp included.",
+                  "price": "79.00",
+                  "priceCurrency": "SGD",
+                  "availability": "https://schema.org/InStock"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Brigade",
+                  "description": "Unlimited coached group sessions, 8-weekly testing, open gym seven days.",
+                  "price": "129.00",
+                  "priceCurrency": "SGD",
+                  "availability": "https://schema.org/InStock"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Elite",
+                  "description": "Everything in Brigade plus four personal coaching sessions a month.",
+                  "price": "229.00",
+                  "priceCurrency": "SGD",
+                  "availability": "https://schema.org/InStock"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://roy866.github.io/Barbell-Brigade-/#website",
+            "url": "https://roy866.github.io/Barbell-Brigade-/",
+            "name": "Barbell Brigade",
+            "inLanguage": "en-SG",
+            "publisher": { "@id": "https://roy866.github.io/Barbell-Brigade-/#gym" }
+          }
+        ]
+      }
+    </script>
 
     <!-- Flags that JS is available, so scroll-reveal can hide elements without
          risking a blank page when scripts are disabled or fail to load. -->
@@ -78,9 +195,23 @@
       <!-- ============================= HERO ============================= -->
       <section class="hero" id="hero">
         <div class="hero-media" aria-hidden="true">
+          <!-- This is the Largest Contentful Paint element, so it decides the
+               site's LCP score. Serving the 1920px file to a phone spent the
+               whole mobile budget on a backdrop that is greyscaled and 4%
+               visible through the overlay; srcset lets a 390px screen take the
+               960px file instead. sizes is 100vw because it is a full-bleed
+               background — the browser cannot infer that from the markup. -->
           <img
             src="https://picsum.photos/seed/barbellbrigade-hero/1920/1200"
+            srcset="
+              https://picsum.photos/seed/barbellbrigade-hero/960/600    960w,
+              https://picsum.photos/seed/barbellbrigade-hero/1440/900  1440w,
+              https://picsum.photos/seed/barbellbrigade-hero/1920/1200 1920w
+            "
+            sizes="100vw"
             alt=""
+            width="1920"
+            height="1200"
             fetchpriority="high"
           />
         </div>
@@ -398,6 +529,170 @@
         </div>
       </section>
 
+      <!-- ============================= FAQ ============================= -->
+      <!-- Sits directly after pricing because that is where the objections
+           actually fire. <details>/<summary> rather than a JS accordion: it is
+           keyboard-operable, screen-reader-labelled and openable with no
+           JavaScript at all, which the reveal contract on this page requires. -->
+      <section class="section" id="faq">
+        <div class="container section-head reveal">
+          <p class="eyebrow">Questions</p>
+          <h2>The things people ask before they walk in.</h2>
+          <p class="section-sub">
+            Mostly variations on one question: am I going to embarrass myself? You aren't.
+          </p>
+        </div>
+
+        <div class="container faq-list reveal">
+          <details class="faq-item">
+            <summary>Do I need to be fit before I join?</summary>
+            <div class="faq-answer">
+              <p>
+                No, and that's not a polite answer — Foundations exists precisely because most
+                people arrive unable to squat to depth or hold a bar overhead. Six weeks later they
+                can. If you could already do it all, you wouldn't need coaching.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>What actually happens in my first session?</summary>
+            <div class="faq-answer">
+              <p>
+                Your first hour is one-on-one with a coach, not a class. You'll talk through what
+                you want and anything that hurts, then learn the four movements everything else is
+                built on — squat, hinge, press, pull — with an empty bar. You leave knowing the
+                vocabulary, so your first group class isn't a guessing game.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How much is membership, and is there a joining fee?</summary>
+            <div class="faq-answer">
+              <p>
+                Memberships run $79, $129 and $229 a month. There is no joining fee, no lock-in
+                contract and no minimum term — you can cancel from your account in about thirty
+                seconds. Most members are on Brigade at $129.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>What should I wear and bring?</summary>
+            <div class="faq-answer">
+              <p>
+                Whatever you already own that you can move in, and flat shoes rather than running
+                trainers if you have them. Bring a water bottle. That's the entire list — everything
+                else lives here.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>I'm coming back from an injury. Can I train?</summary>
+            <div class="faq-answer">
+              <p>
+                Usually yes, and it's one of the most common reasons people start with us. Tell your
+                coach in the intro session and the program gets written around it. Priya's background
+                is physio, so if something needs working around rather than through, that call gets
+                made by someone qualified to make it.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>How many people are in a class?</summary>
+            <div class="faq-answer">
+              <p>
+                Twelve at most, one coach. That cap is the whole model — it's the number at which a
+                coach can still watch every rep and correct it, which is the thing you're actually
+                paying for.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can I try it before I pay anything?</summary>
+            <div class="faq-answer">
+              <p>
+                Yes — a full week, unlimited classes, one-on-one intro session included, no card
+                details taken. Book it from the form at the bottom of this page.
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- FAQPage markup for the section above. Google drops answers that do
+           not appear in the rendered page, so these strings are copied from the
+           markup verbatim — edit one and you must edit the other. -->
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "@id": "https://roy866.github.io/Barbell-Brigade-/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Do I need to be fit before I join?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No, and that's not a polite answer — Foundations exists precisely because most people arrive unable to squat to depth or hold a bar overhead. Six weeks later they can. If you could already do it all, you wouldn't need coaching."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What actually happens in my first session?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Your first hour is one-on-one with a coach, not a class. You'll talk through what you want and anything that hurts, then learn the four movements everything else is built on — squat, hinge, press, pull — with an empty bar. You leave knowing the vocabulary, so your first group class isn't a guessing game."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much is membership, and is there a joining fee?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Memberships run $79, $129 and $229 a month. There is no joining fee, no lock-in contract and no minimum term — you can cancel from your account in about thirty seconds. Most members are on Brigade at $129."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What should I wear and bring?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Whatever you already own that you can move in, and flat shoes rather than running trainers if you have them. Bring a water bottle. That's the entire list — everything else lives here."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "I'm coming back from an injury. Can I train?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Usually yes, and it's one of the most common reasons people start with us. Tell your coach in the intro session and the program gets written around it. Priya's background is physio, so if something needs working around rather than through, that call gets made by someone qualified to make it."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How many people are in a class?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Twelve at most, one coach. That cap is the whole model — it's the number at which a coach can still watch every rep and correct it, which is the thing you're actually paying for."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I try it before I pay anything?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes — a full week, unlimited classes, one-on-one intro session included, no card details taken. Book it from the form at the bottom of this page."
+              }
+            }
+          ]
+        }
+      </script>
+
       <!-- ============================= SCHEDULE ============================= -->
       <section class="section" id="schedule">
         <div class="container section-head reveal">
@@ -635,6 +930,11 @@
               <textarea id="message" name="message" rows="4" placeholder="Injuries, schedule, nerves — all fair game."></textarea>
               <p class="error" id="messageError"></p>
             </div>
+
+            <!-- Spam trap. Hidden from sight and from the tab order and the
+                 accessibility tree, so only a bot filling every field reaches
+                 it; script.js drops any submission that has it set. -->
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
 
             <button type="submit" class="btn btn-primary btn-block">Book my free week</button>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
