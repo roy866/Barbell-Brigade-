@@ -200,8 +200,19 @@
       });
     }
 
+    // Autoplay is paused for as long as the reader is engaged with the
+    // carousel — pointer over it, or keyboard focus inside it.
+    function isEngaged() {
+      return carousel.matches(":hover") || carousel.contains(document.activeElement);
+    }
+
     function startAutoplay() {
       if (prefersReducedMotion) return;
+      // Every resume routes through here and re-checks live state, so callers
+      // never have to know whether autoplay is currently allowed. Without the
+      // isEngaged() guard, clicking prev/next while hovering would restart
+      // autoplay under the reader's cursor.
+      if (isEngaged()) return;
       // Clear before starting: mouseleave and focusout both land here, so two
       // starts can arrive without a stop between them. Without this, the older
       // interval keeps firing with its handle overwritten — unreachable by

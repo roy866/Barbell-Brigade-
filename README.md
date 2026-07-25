@@ -26,10 +26,16 @@ Every push to `main` republishes it — `.github/workflows/deploy.yml` copies th
 GitHub Pages, minus `.git`, `.github`, `.claude`, `.mcp.json` and `CLAUDE.md`. There's no build
 step, so a push is the whole deploy.
 
+New site files ship automatically — the workflow excludes rather than allow-lists — and the
+Actions tab has a **Run workflow** button for a manual redeploy.
+
 This file ships too, as raw markdown at
-[`/README.md`](https://roy866.github.io/Barbell-Brigade-/README.md) — there's no build step to
-render it, so expect source text rather than a formatted page. The Actions tab also has a **Run workflow** button for a manual
-redeploy. New site files ship automatically; the workflow excludes rather than allow-lists.
+[`/README.md`](https://roy866.github.io/Barbell-Brigade-/README.md). With no build step to render
+it, that URL serves source text rather than a formatted page.
+
+Pages sends `max-age=600` on assets, so a browser that already has the site open can keep running
+the previous `script.js` for up to ten minutes after a deploy. When verifying a fix on the live
+URL, hard-reload — otherwise you are testing the old file.
 
 ## Files
 
@@ -144,9 +150,12 @@ Validation is table-driven, so a new field is two edits:
 
    ```html
    <label for="referral">How did you hear about us?</label>
-   <input id="referral" name="referral" type="text" />
-   <p class="field-error" id="referralError" role="alert"></p>
+   <input id="referral" name="referral" type="text" aria-describedby="referralError" />
+   <p class="error" id="referralError"></p>
    ```
+
+   Wrap both in a `<div class="field">` like the existing ones — `validateField` toggles the
+   `invalid` class on the input's `parentElement`, so the red border comes from that wrapper.
 
 2. **`script.js` section 6** — add a matching entry to the `rules` array:
 
