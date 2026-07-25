@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 48" width="96" height="48" role="img" aria-label="Barbell Brigade barbell logo">
+  <!-- bar -->
+  <rect x="8" y="21" width="80" height="6" rx="3" fill="#FFFFFF"/>
+  <!-- outer plates -->
+  <rect x="14" y="8" width="9" height="32" rx="3" fill="#C8FF00"/>
+  <rect x="73" y="8" width="9" height="32" rx="3" fill="#C8FF00"/>
+  <!-- inner plates -->
+  <rect x="26" y="14" width="7" height="20" rx="2.5" fill="#FFFFFF"/>
+  <rect x="63" y="14" width="7" height="20" rx="2.5" fill="#FFFFFF"/>
+</svg>

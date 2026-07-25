@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barbell Brigade | Strength Training for Everyone</title>
+    <meta
+      name="description"
+      content="Barbell Brigade is a strength and conditioning gym for people who want to get fit. Coached sessions, small classes, and a first week free."
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Barbell Brigade | Strength Training for Everyone" />
+    <meta
+      property="og:description"
+      content="Coached strength training for real people. No egos, no guesswork. Your first week is free."
+    />
+    <meta property="og:image" content="assets/logo.svg" />
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Flags that JS is available, so scroll-reveal can hide elements without
+         risking a blank page when scripts are disabled or fail to load. -->
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- ============================= HEADER / NAV ============================= -->
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a class="brand" href="#hero" aria-label="Barbell Brigade home">
+          <svg class="brand-mark" viewBox="0 0 96 48" aria-hidden="true" focusable="false">
+            <rect x="8" y="21" width="80" height="6" rx="3" class="bar" />
+            <rect x="14" y="8" width="9" height="32" rx="3" class="plate-outer" />
+            <rect x="73" y="8" width="9" height="32" rx="3" class="plate-outer" />
+            <rect x="26" y="14" width="7" height="20" rx="2.5" class="plate-inner" />
+            <rect x="63" y="14" width="7" height="20" rx="2.5" class="plate-inner" />
+          </svg>
+          <span class="brand-name">Barbell<span class="brand-accent">Brigade</span></span>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="siteNav"
+        >
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+        </button>
+
+        <nav class="site-nav" id="siteNav" aria-label="Main">
+          <a href="#why">Why Us</a>
+          <a href="#programs">Programs</a>
+          <a href="#coaches">Coaches</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#schedule">Schedule</a>
+          <a href="#contact" class="nav-cta">Free Week</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============================= HERO ============================= -->
+      <section class="hero" id="hero">
+        <div class="hero-media" aria-hidden="true">
+          <img
+            src="https://picsum.photos/seed/barbellbrigade-hero/1920/1200"
+            alt=""
+            fetchpriority="high"
+          />
+        </div>
+
+        <!-- Three drifting wave layers. Purely decorative, CSS-animated. -->
+        <div class="hero-waves" aria-hidden="true">
+          <span class="wave wave-back"></span>
+          <span class="wave wave-mid"></span>
+          <span class="wave wave-front"></span>
+        </div>
+
+        <div class="container hero-inner">
+          <p class="eyebrow reveal">Strength training for everyone</p>
+          <h1 class="reveal">
+            You don't need to be fit<br />
+            <span class="accent">to start here.</span>
+          </h1>
+          <p class="hero-copy reveal">
+            Barbell Brigade is a coached strength gym for people who want to get fit — beginners
+            welcome, egos optional. Every session is programmed, every lift is supervised, and
+            nobody gets left staring at a machine wondering what to do next.
+          </p>
+          <div class="hero-actions reveal">
+            <a href="#contact" class="btn btn-primary">Claim your free week</a>
+            <a href="#programs" class="btn btn-ghost">See the programs</a>
+          </div>
+          <p class="hero-note reveal">No joining fee &middot; Cancel anytime &middot; First session is 1-on-1</p>
+        </div>
+
+        <a class="scroll-cue" href="#stats" aria-label="Scroll to next section"></a>
+      </section>
+
+      <!-- ============================= STATS ============================= -->
+      <section class="stats" id="stats">
+        <div class="container stats-grid">
+          <div class="stat reveal">
+            <span class="stat-number" data-count="1200" data-suffix="+">0</span>
+            <span class="stat-label">Members coached</span>
+          </div>
+          <div class="stat reveal">
+            <span class="stat-number" data-count="14" data-suffix="">0</span>
+            <span class="stat-label">Certified coaches</span>
+          </div>
+          <div class="stat reveal">
+            <span class="stat-number" data-count="60" data-suffix="+">0</span>
+            <span class="stat-label">Classes per week</span>
+          </div>
+          <div class="stat reveal">
+            <span class="stat-number" data-count="92" data-suffix="%">0</span>
+            <span class="stat-label">Still training after 6 months</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= WHY US ============================= -->
+      <section class="section" id="why">
+        <div class="container section-head reveal">
+          <p class="eyebrow">Why Barbell Brigade</p>
+          <h2>Built for beginners. Good enough for everyone else.</h2>
+          <p class="section-sub">
+            Most gyms sell you access and wish you luck. We sell you a plan, a coach, and a room
+            full of people who remember exactly how it felt on day one.
+          </p>
+        </div>
+
+        <div class="container card-grid four">
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2 3 7v6c0 5 3.8 8.4 9 9 5.2-.6 9-4 9-9V7l-9-5Z"/></svg>
+            </div>
+            <h3>Coached, not crowded</h3>
+            <p>
+              Classes cap at 12 people. Your coach knows your name, your goals, and exactly how
+              much weight you lifted last Tuesday.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 20V10h4v10H4Zm6 0V4h4v16h-4Zm6 0v-7h4v7h-4Z"/></svg>
+            </div>
+            <h3>A plan that progresses</h3>
+            <p>
+              You get a written 12-week program from week one. Every session builds on the last —
+              no random workouts, no plateaus you can't explain.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.3-9A5.4 5.4 0 0 1 12 6.6a5.4 5.4 0 0 1 9.3 5.4C19.5 16.4 12 21 12 21Z"/></svg>
+            </div>
+            <h3>Zero intimidation</h3>
+            <p>
+              No mirrors-only meatheads, no grunting contests. Your first session is one-on-one so
+              you walk into class already knowing the lifts.
+            </p>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10h-10V2Z"/></svg>
+            </div>
+            <h3>Progress you can see</h3>
+            <p>
+              Strength, body composition and conditioning retested every 8 weeks. Numbers on a
+              screen, not vibes in a mirror.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================= PROGRAMS ============================= -->
+      <section class="section section-alt" id="programs">
+        <div class="container section-head reveal">
+          <p class="eyebrow">Programs</p>
+          <h2>Pick your entry point.</h2>
+          <p class="section-sub">
+            Six programs, one membership. Mix them however you like — most members run two strength
+            days and one conditioning day.
+          </p>
+        </div>
+
+        <div class="container card-grid three">
+          <article class="program reveal">
+            <div class="program-media">
+              <img src="https://picsum.photos/seed/bb-foundations/800/600" alt="Coach guiding a member through a barbell deadlift" loading="lazy" />
+              <span class="tag tag-easy">Beginner</span>
+            </div>
+            <div class="program-body">
+              <h3>Foundations</h3>
+              <p class="program-meta">6 weeks &middot; 60 min</p>
+              <p>
+                The on-ramp. Squat, hinge, press, pull — drilled slowly until they feel like second
+                nature. Start here if you've never touched a barbell.
+              </p>
+            </div>
+          </article>
+
+          <article class="program reveal">
+            <div class="program-media">
+              <img src="https://picsum.photos/seed/bb-strength/800/600" alt="Member loading plates onto a barbell" loading="lazy" />
+              <span class="tag tag-mid">All levels</span>
+            </div>
+            <div class="program-body">
+              <h3>Barbell Strength</h3>
+              <p class="program-meta">Ongoing &middot; 60 min</p>
+              <p>
+                Our flagship. Progressive overload on the big four, accessory work that fixes your
+                weak links, and a coach counting every rep.
+              </p>
+            </div>
+          </article>
+
+          <article class="program reveal">
+            <div class="program-media">
+              <img src="https://picsum.photos/seed/bb-conditioning/800/600" alt="Group conditioning class on rowing machines" loading="lazy" />
+              <span class="tag tag-hard">High intensity</span>
+            </div>
+            <div class="program-body">
+              <h3>Engine Room</h3>
+              <p class="program-meta">Ongoing &middot; 45 min</p>
+              <p>
+                Rower, bike, sled, repeat. Conditioning that builds a heart and lungs to match the
+                strength you're putting on next door.
+              </p>
+            </div>
+          </article>
+
+          <article class="program reveal">
+            <div class="program-media">
+              <img src="https://picsum.photos/seed/bb-mobility/800/600" alt="Member stretching on a mat during a mobility session" loading="lazy" />
+              <span class="tag tag-easy">Recovery</span>
+            </div>
+            <div class="program-body">
+              <h3>Mobility &amp; Recovery</h3>
+              <p class="program-meta">Ongoing &middot; 45 min</p>
+              <p>
+                Hips that hurt, shoulders that click, a back that's been at a desk since 2015. This
+                is the session that keeps you training.
+              </p>
+            </div>
+          </article>
+
+          <article class="program reveal">
+            <div class="program-media">
+              <img src="https://picsum.photos/seed/bb-boxing/800/600" alt="Member training on boxing pads with a coach" loading="lazy" />
+              <span class="tag tag-mid">All levels</span>
+            </div>
+            <div class="program-body">
+              <h3>Pads &amp; Punches</h3>
+              <p class="program-meta">Ongoing &middot; 45 min</p>
+              <p>
+                Boxing fundamentals on the pads and the bag. The fastest way to get fit while
+                forgetting you're exercising.
+              </p>
+            </div>
+          </article>
+
+          <article class="program reveal">
+            <div class="program-media">
+              <img src="https://picsum.photos/seed/bb-pt/800/600" alt="One-to-one personal training session" loading="lazy" />
+              <span class="tag tag-hard">1-on-1</span>
+            </div>
+            <div class="program-body">
+              <h3>Personal Coaching</h3>
+              <p class="program-meta">Ongoing &middot; 50 min</p>
+              <p>
+                Private sessions built entirely around you — returning from injury, chasing a
+                number, or just wanting the room to yourself.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================= COACHES ============================= -->
+      <section class="section" id="coaches">
+        <div class="container section-head reveal">
+          <p class="eyebrow">The Brigade</p>
+          <h2>Coaches who started where you are.</h2>
+        </div>
+
+        <div class="container card-grid three">
+          <article class="coach reveal">
+            <img src="https://picsum.photos/seed/bb-coach-mara/600/700" alt="Coach Mara Ellison" loading="lazy" />
+            <div class="coach-body">
+              <h3>Mara Ellison</h3>
+              <p class="coach-role">Head Coach &middot; Strength</p>
+              <p>
+                Ten years coaching barbell technique. Believes the best program is the one you'll
+                actually turn up for.
+              </p>
+            </div>
+          </article>
+
+          <article class="coach reveal">
+            <img src="https://picsum.photos/seed/bb-coach-devin/600/700" alt="Coach Devin Osei" loading="lazy" />
+            <div class="coach-body">
+              <h3>Devin Osei</h3>
+              <p class="coach-role">Conditioning &middot; Boxing</p>
+              <p>
+                Ex-amateur boxer turned conditioning nerd. Will make you laugh roughly four seconds
+                before he makes you sweat.
+              </p>
+            </div>
+          </article>
+
+          <article class="coach reveal">
+            <img src="https://picsum.photos/seed/bb-coach-priya/600/700" alt="Coach Priya Raman" loading="lazy" />
+            <div class="coach-body">
+              <h3>Priya Raman</h3>
+              <p class="coach-role">Mobility &middot; Rehab</p>
+              <p>
+                Physio background, barbell habit. Specialises in getting desk-bound bodies moving
+                without breaking them first.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================= PRICING ============================= -->
+      <section class="section section-alt" id="pricing">
+        <div class="container section-head reveal">
+          <p class="eyebrow">Membership</p>
+          <h2>Straightforward pricing.</h2>
+          <p class="section-sub">
+            No lock-in contracts, no joining fee, no six-month minimum buried in the small print.
+          </p>
+        </div>
+
+        <div class="container card-grid three pricing-grid">
+          <article class="plan reveal">
+            <h3>Starter</h3>
+            <p class="plan-price"><span>$79</span>/month</p>
+            <p class="plan-tagline">Two sessions a week, all the coaching.</p>
+            <ul class="plan-features">
+              <li>8 group sessions per month</li>
+              <li>Foundations on-ramp included</li>
+              <li>Written 12-week program</li>
+              <li>Open gym access weekdays</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Start here</a>
+          </article>
+
+          <article class="plan featured reveal">
+            <span class="plan-badge">Most popular</span>
+            <h3>Brigade</h3>
+            <p class="plan-price"><span>$129</span>/month</p>
+            <p class="plan-tagline">Unlimited classes. The one most members pick.</p>
+            <ul class="plan-features">
+              <li>Unlimited group sessions</li>
+              <li>Foundations on-ramp included</li>
+              <li>8-weekly strength &amp; body testing</li>
+              <li>Open gym access 7 days</li>
+              <li>Nutrition guidance &amp; check-ins</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Claim free week</a>
+          </article>
+
+          <article class="plan reveal">
+            <h3>Elite</h3>
+            <p class="plan-price"><span>$229</span>/month</p>
+            <p class="plan-tagline">Everything, plus a coach in your corner.</p>
+            <ul class="plan-features">
+              <li>Everything in Brigade</li>
+              <li>4 personal coaching sessions</li>
+              <li>Fully bespoke programming</li>
+              <li>Priority class booking</li>
+              <li>Recovery suite access</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Talk to us</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================= SCHEDULE ============================= -->
+      <section class="section" id="schedule">
+        <div class="container section-head reveal">
+          <p class="eyebrow">Timetable</p>
+          <h2>This week at the Brigade.</h2>
+          <p class="section-sub">Sixty-plus sessions a week. Book through the member app.</p>
+        </div>
+
+        <div class="container reveal">
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Weekly class schedule, scrollable">
+            <table class="schedule-table">
+              <caption class="visually-hidden">Weekly class schedule by time and day</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Time</th>
+                  <th scope="col">Mon</th>
+                  <th scope="col">Tue</th>
+                  <th scope="col">Wed</th>
+                  <th scope="col">Thu</th>
+                  <th scope="col">Fri</th>
+                  <th scope="col">Sat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">6:00 AM</th>
+                  <td>Barbell Strength</td>
+                  <td>Engine Room</td>
+                  <td>Barbell Strength</td>
+                  <td>Engine Room</td>
+                  <td>Barbell Strength</td>
+                  <td class="empty">—</td>
+                </tr>
+                <tr>
+                  <th scope="row">7:30 AM</th>
+                  <td>Foundations</td>
+                  <td>Pads &amp; Punches</td>
+                  <td>Foundations</td>
+                  <td>Pads &amp; Punches</td>
+                  <td>Foundations</td>
+                  <td>Barbell Strength</td>
+                </tr>
+                <tr>
+                  <th scope="row">12:00 PM</th>
+                  <td>Engine Room</td>
+                  <td>Mobility</td>
+                  <td>Engine Room</td>
+                  <td>Mobility</td>
+                  <td>Engine Room</td>
+                  <td>Engine Room</td>
+                </tr>
+                <tr>
+                  <th scope="row">5:30 PM</th>
+                  <td>Barbell Strength</td>
+                  <td>Barbell Strength</td>
+                  <td>Barbell Strength</td>
+                  <td>Barbell Strength</td>
+                  <td>Barbell Strength</td>
+                  <td>Foundations</td>
+                </tr>
+                <tr>
+                  <th scope="row">6:45 PM</th>
+                  <td>Pads &amp; Punches</td>
+                  <td>Foundations</td>
+                  <td>Pads &amp; Punches</td>
+                  <td>Foundations</td>
+                  <td>Mobility</td>
+                  <td class="empty">—</td>
+                </tr>
+                <tr>
+                  <th scope="row">8:00 PM</th>
+                  <td>Mobility</td>
+                  <td>Engine Room</td>
+                  <td>Mobility</td>
+                  <td>Engine Room</td>
+                  <td class="empty">—</td>
+                  <td class="empty">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-hint">Swipe the table sideways to see the full week.</p>
+        </div>
+      </section>
+
+      <!-- ============================= TESTIMONIALS ============================= -->
+      <section class="section section-alt" id="stories">
+        <div class="container section-head reveal">
+          <p class="eyebrow">Member stories</p>
+          <h2>People who thought they weren't "gym people".</h2>
+        </div>
+
+        <div class="container carousel reveal" id="carousel">
+          <div class="carousel-viewport">
+            <ul class="carousel-track" id="carouselTrack">
+              <li class="slide">
+                <blockquote>
+                  <p>
+                    I'd never lifted anything heavier than a suitcase. Six months in I deadlifted
+                    100kg and cried a bit in the car park. Nobody here made me feel stupid for a
+                    single second of it.
+                  </p>
+                  <footer>
+                    <span class="slide-name">Hannah T.</span>
+                    <span class="slide-detail">Brigade member &middot; 14 months</span>
+                  </footer>
+                </blockquote>
+              </li>
+              <li class="slide">
+                <blockquote>
+                  <p>
+                    I joined at 48 with a bad back and low expectations. The mobility class fixed
+                    more in eight weeks than two years of ignoring it did. I'm now the annoying guy
+                    who talks about squats at dinner.
+                  </p>
+                  <footer>
+                    <span class="slide-name">Marcus B.</span>
+                    <span class="slide-detail">Starter member &middot; 10 months</span>
+                  </footer>
+                </blockquote>
+              </li>
+              <li class="slide">
+                <blockquote>
+                  <p>
+                    What sold me was that first one-on-one session. I walked into my first class
+                    already knowing what a hinge was, so I wasn't the person in the corner copying
+                    everyone else.
+                  </p>
+                  <footer>
+                    <span class="slide-name">Anaya P.</span>
+                    <span class="slide-detail">Brigade member &middot; 7 months</span>
+                  </footer>
+                </blockquote>
+              </li>
+              <li class="slide">
+                <blockquote>
+                  <p>
+                    Three gyms in five years and I quit all of them by February. This is the first
+                    place where someone actually noticed when I didn't turn up. That's the whole
+                    trick, apparently.
+                  </p>
+                  <footer>
+                    <span class="slide-name">Joel R.</span>
+                    <span class="slide-detail">Elite member &middot; 2 years</span>
+                  </footer>
+                </blockquote>
+              </li>
+            </ul>
+          </div>
+
+          <div class="carousel-controls">
+            <button class="carousel-btn" id="prevSlide" aria-label="Previous testimonial">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+            </button>
+            <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Choose testimonial"></div>
+            <button class="carousel-btn" id="nextSlide" aria-label="Next testimonial">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= CONTACT ============================= -->
+      <section class="section" id="contact">
+        <div class="container section-head reveal">
+          <p class="eyebrow">Free trial week</p>
+          <h2>Come and try it. Seriously, it's free.</h2>
+          <p class="section-sub">
+            Seven days, unlimited classes, one-on-one intro session included. Tell us where you're
+            starting from and we'll take it from there.
+          </p>
+        </div>
+
+        <div class="container contact-grid">
+          <div class="contact-info reveal">
+            <h3>Find us</h3>
+            <ul class="info-list">
+              <li>
+                <span class="info-label">Address</span>
+                18 Ironworks Lane, Unit 04<br />Singapore 049513
+              </li>
+              <li>
+                <span class="info-label">Hours</span>
+                Mon&ndash;Fri 5:30am &ndash; 9:30pm<br />Sat 7:00am &ndash; 2:00pm &middot; Sun closed
+              </li>
+              <li>
+                <span class="info-label">Email</span>
+                <a href="mailto:hello@barbellbrigade.com">hello@barbellbrigade.com</a>
+              </li>
+              <li>
+                <span class="info-label">Phone</span>
+                <a href="tel:+6561234567">+65 6123 4567</a>
+              </li>
+            </ul>
+            <div class="map-placeholder" role="img" aria-label="Map showing Barbell Brigade at 18 Ironworks Lane">
+              <span>Map &mdash; 18 Ironworks Lane</span>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" id="contactForm" novalidate>
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="Your name" />
+              <p class="error" id="nameError"></p>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" />
+                <p class="error" id="emailError"></p>
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+65 9123 4567" />
+                <p class="error" id="phoneError"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="goal">What's your main goal?</label>
+              <select id="goal" name="goal">
+                <option value="">Choose one…</option>
+                <option value="general">Just get fit and feel better</option>
+                <option value="strength">Get stronger</option>
+                <option value="weight">Lose weight</option>
+                <option value="return">Return after a break or injury</option>
+                <option value="performance">Train for a sport or event</option>
+              </select>
+              <p class="error" id="goalError"></p>
+            </div>
+
+            <div class="field">
+              <label for="message">Anything we should know?</label>
+              <textarea id="message" name="message" rows="4" placeholder="Injuries, schedule, nerves — all fair game."></textarea>
+              <p class="error" id="messageError"></p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Book my free week</button>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================= FOOTER ============================= -->
+    <footer class="site-footer">
+      <div class="container footer-top">
+        <div class="footer-brand">
+          <svg class="brand-mark" viewBox="0 0 96 48" aria-hidden="true" focusable="false">
+            <rect x="8" y="21" width="80" height="6" rx="3" class="bar" />
+            <rect x="14" y="8" width="9" height="32" rx="3" class="plate-outer" />
+            <rect x="73" y="8" width="9" height="32" rx="3" class="plate-outer" />
+            <rect x="26" y="14" width="7" height="20" rx="2.5" class="plate-inner" />
+            <rect x="63" y="14" width="7" height="20" rx="2.5" class="plate-inner" />
+          </svg>
+          <p>Strength training for people who want to get fit. Beginners very welcome.</p>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer">
+          <h4>Explore</h4>
+          <a href="#why">Why Us</a>
+          <a href="#programs">Programs</a>
+          <a href="#coaches">Coaches</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#schedule">Schedule</a>
+        </nav>
+
+        <div class="footer-newsletter">
+          <h4>Training tips, monthly</h4>
+          <p>One email a month. Programming advice, member stories, zero spam.</p>
+          <form class="newsletter-form" id="newsletterForm" novalidate>
+            <label class="visually-hidden" for="newsletterEmail">Email address</label>
+            <input type="email" id="newsletterEmail" name="newsletterEmail" placeholder="you@example.com" />
+            <button type="submit" class="btn btn-primary">Join</button>
+          </form>
+          <p class="form-status" id="newsletterStatus" role="status" aria-live="polite"></p>
+
+          <div class="socials">
+            <a href="#" aria-label="Barbell Brigade on Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2h.01M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm5 5.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Zm5.5-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
+            </a>
+            <a href="#" aria-label="Barbell Brigade on Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 9V7a2 2 0 0 1 2-2h2V2h-3a5 5 0 0 0-5 5v2H8v3h2v10h4V12h3l1-3h-4Z"/></svg>
+            </a>
+            <a href="#" aria-label="Barbell Brigade on YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12s0-3.5-.45-5.15a2.7 2.7 0 0 0-1.9-1.9C17.98 4.5 12 4.5 12 4.5s-5.98 0-7.65.45a2.7 2.7 0 0 0-1.9 1.9C2 8.5 2 12 2 12s0 3.5.45 5.15a2.7 2.7 0 0 0 1.9 1.9c1.67.45 7.65.45 7.65.45s5.98 0 7.65-.45a2.7 2.7 0 0 0 1.9-1.9C22 15.5 22 12 22 12ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <p>&copy; 2026 Barbell Brigade. All rights reserved.</p>
+        <p><a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
