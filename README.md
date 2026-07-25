@@ -87,6 +87,96 @@ picks up `--text` and `--accent`, so it recolours with the theme automatically.
 - Visible focus rings on all interactive elements
 - `prefers-reduced-motion` disables autoplay, counters, reveals and smooth scrolling
 
+## Customising it
+
+### Rebranding
+
+Every colour, font, spacing, radius and motion value is a CSS custom property in `:root` at the
+top of `styles.css` (section 1). Nothing further down the stylesheet hard-codes a hex value, so
+editing that one block rebrands the whole site:
+
+```css
+:root {
+  --bg: #0d0d0d;          /* page background */
+  --surface: #181818;     /* cards, header, inputs */
+  --text: #f5f5f5;        /* body copy */
+  --muted: #a3a3a3;       /* secondary copy */
+  --accent: #c8ff00;      /* buttons, links, active states, logo plates */
+  --accent-dim: #a8d600;  /* accent hover */
+  --danger: #ff6b5e;      /* form validation errors */
+
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius: 4px;          /* raise for a softer look */
+  --speed: 220ms;         /* global transition duration */
+}
+```
+
+Swapping the fonts also means updating the Google Fonts `<link>` in `index.html`'s `<head>`. If
+you go light instead of dark, change `color-scheme: dark` in the same block so form controls and
+scrollbars follow.
+
+Keep adding tokens rather than typing literal values elsewhere — that's the one rule that keeps
+the rebrand-in-one-place property true.
+
+### Changing the logo
+
+The barbell mark exists in **four** places. Update all of them or they drift apart:
+
+| Where | Form |
+| --- | --- |
+| `assets/logo.svg` | Standalone file, literal hex fills |
+| `assets/favicon.svg` | Rounded tile for the browser tab, literal hex fills |
+| `index.html` header | Inlined `<svg class="brand-mark">` |
+| `index.html` footer | The same markup a second time |
+
+The two inline copies use classes instead of fills — `.bar` and `.plate-inner` take `--text`,
+`.plate-outer` takes `--accent` (`styles.css` section 5) — which is why the header logo recolours
+with the theme and the two standalone files don't.
+
+### Adding a contact-form field
+
+Validation is table-driven, so a new field is two edits:
+
+1. **`index.html`** — add the input inside the contact form, plus an error paragraph whose `id`
+   is the input's `id` with `Error` appended:
+
+   ```html
+   <label for="referral">How did you hear about us?</label>
+   <input id="referral" name="referral" type="text" />
+   <p class="field-error" id="referralError" role="alert"></p>
+   ```
+
+2. **`script.js` section 6** — add a matching entry to the `rules` array:
+
+   ```js
+   {
+     id: "referral",
+     test: function (v) { return v.trim() !== ""; },
+     message: "Let us know how you found us.",
+   },
+   ```
+
+The `id` is the join between the two files — it has to match the input, the error paragraph
+minus `Error`, and the rule. Return `true` unconditionally from `test` to make a field optional,
+the way `message` already does. Errors show on blur and clear as you type.
+
+### Animating a new element
+
+Add `class="reveal"` and the `IntersectionObserver` in `script.js` section 3 picks it up — the
+element fades and rises in the first time it scrolls into view. Siblings revealed in the same
+batch stagger automatically, so a whole grid only needs the class on each card.
+
+Don't set `opacity: 0` in your own CSS to do this. Hiding is scoped to `.js .reveal`
+(`styles.css` section 16) and the `js` class is only added by an inline script in `<head>`, so
+with JavaScript off nothing is ever hidden. Bypassing that pattern risks blanking content for
+anyone JS fails on.
+
+Both layers also honour `prefers-reduced-motion`: the CSS neutralises transitions and the JS
+skips counters, carousel autoplay and the observer entirely. New motion needs handling in
+whichever layer introduces it.
+
 ## Wiring it up for real
 
 Two things are placeholders and need swapping before launch:
