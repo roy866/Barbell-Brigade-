@@ -1,2 +1,16 @@
 # Scratch output from the Playwright MCP server (page snapshots, traces).
 .playwright-mcp/
+
+# Agent tooling installed into the project, not part of the site. Worth
+# ignoring rather than just leaving untracked: deploy.yml publishes the repo
+# root minus an exclusion list, and none of these are on it — committing them
+# would serve them from the live site.
+.agents/
+skills-lock.json
+
+# Skills are installed tooling; commands are hand-written and stay tracked
+# (.claude/commands/github-push.md), so ignore the subdirectory, not .claude.
+.claude/skills/
+
+# Local machine settings — permissions and paths that are personal, not project.
+.claude/settings.local.json
