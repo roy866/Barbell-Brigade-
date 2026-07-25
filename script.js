@@ -415,7 +415,22 @@
           }),
         })
         .then(function (response) {
-          if (!response.ok) throw new Error("HTTP " + response.status);
+          // FormSubmit answers 200 even when it refuses to deliver — an
+          // unactivated form, a blocked address — and puts the real verdict in
+          // the body. Trusting the status code alone showed the visitor a
+          // confirmation for an enquiry that was never sent.
+          return response
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (data) {
+              if (!response.ok || String(data.success) !== "true") {
+                throw new Error(data.message || "HTTP " + response.status);
+              }
+            });
+        })
+        .then(function () {
           formStatus.style.color = "";
           formStatus.textContent =
             "Thanks " + firstName + " — we'll be in touch within one working day.";
