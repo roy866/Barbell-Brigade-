@@ -248,6 +248,9 @@
     var formStatus = document.getElementById("formStatus");
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     var PHONE_RE = /^[+()\d\s-]{7,20}$/;
+    // Local numbers run to 8 digits here and 10 with the country code; 7 is a
+    // safe international floor that still rejects punctuation-only input.
+    var MIN_PHONE_DIGITS = 7;
 
     var rules = [
       {
@@ -267,7 +270,11 @@
       {
         id: "phone",
         test: function (v) {
-          return PHONE_RE.test(v.trim());
+          var trimmed = v.trim();
+          // Shape check alone is not enough: the character class is all
+          // punctuation plus digits, so "-------" and "()()()()" passed it
+          // while being unreachable. Require real digits as well.
+          return PHONE_RE.test(trimmed) && (trimmed.match(/\d/g) || []).length >= MIN_PHONE_DIGITS;
         },
         message: "Enter a phone number we can reach you on.",
       },
@@ -306,6 +313,10 @@
         validateField(rule);
       });
       input.addEventListener("input", function () {
+        // The confirmation from a previous submit describes an enquiry that has
+        // already been sent — editing the form again makes it stale, and
+        // leaving it up alongside a fresh error message reads as contradictory.
+        if (formStatus.textContent) formStatus.textContent = "";
         if (input.parentElement.classList.contains("invalid")) validateField(rule);
       });
     });
@@ -333,12 +344,15 @@
       // No backend on this build — log the payload so it is easy to wire up later.
       var payload = {};
       new FormData(contactForm).forEach(function (value, key) {
-        payload[key] = value;
+        payload[key] = typeof value === "string" ? value.trim() : value;
       });
       console.log("Free week request:", payload);
 
+      // Split on whitespace rather than a single space: an untrimmed leading
+      // space made split(" ")[0] return "", greeting the member as "Thanks  —".
+      var firstName = payload.name.split(/\s+/)[0];
       formStatus.textContent =
-        "Thanks " + payload.name.split(" ")[0] + " — we'll be in touch within one working day.";
+        "Thanks " + firstName + " — we'll be in touch within one working day.";
       contactForm.reset();
     });
   }
