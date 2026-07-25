@@ -50,7 +50,6 @@ jobs:
             --exclude '.claude' \
             --exclude '.mcp.json' \
             --exclude '_site' \
-            --exclude 'README.md' \
             --exclude 'CLAUDE.md' \
             ./ _site/
           echo "Publishing:" && find _site -type f | sort

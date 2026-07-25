@@ -23,8 +23,12 @@ and placeholder images, which need an internet connection.
 <https://roy866.github.io/Barbell-Brigade-/>
 
 Every push to `main` republishes it — `.github/workflows/deploy.yml` copies the repo into
-GitHub Pages, minus `.git`, `.github`, `.claude`, `README.md` and `CLAUDE.md`. There's no build
-step, so a push is the whole deploy. The Actions tab also has a **Run workflow** button for a manual
+GitHub Pages, minus `.git`, `.github`, `.claude`, `.mcp.json` and `CLAUDE.md`. There's no build
+step, so a push is the whole deploy.
+
+This file ships too, as raw markdown at
+[`/README.md`](https://roy866.github.io/Barbell-Brigade-/README.md) — there's no build step to
+render it, so expect source text rather than a formatted page. The Actions tab also has a **Run workflow** button for a manual
 redeploy. New site files ship automatically; the workflow excludes rather than allow-lists.
 
 ## Files
