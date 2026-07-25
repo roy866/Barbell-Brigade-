@@ -576,6 +576,44 @@ textarea {
   margin-bottom: 1.75rem;
 }
 
+/* One word hops once every 5 seconds. The hop itself takes about 0.8s — the
+   rest of the cycle is the word sitting still, which is what makes it read as
+   an occasional beat rather than a loop. inline-block so transforms apply at
+   all, and the bottom origin keeps it standing on the baseline while it
+   squashes. */
+.hero h1 .jump {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  animation: word-jump 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes word-jump {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  /* Crouch */
+  4% {
+    transform: translateY(0) scale(1.12, 0.86);
+  }
+  /* Up */
+  9% {
+    transform: translateY(-0.3em) scale(0.94, 1.1);
+  }
+  /* Down */
+  13% {
+    transform: translateY(0) scale(1.1, 0.88);
+  }
+  /* Settle */
+  17% {
+    transform: translateY(0) scale(0.98, 1.02);
+  }
+  20% {
+    transform: translateY(0) scale(1, 1);
+  }
+}
+
 .hero-copy {
   max-width: 38rem;
   margin-bottom: 2.25rem;
