@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Every push to main publishes the site.
+  push:
+    branches: [main]
+  # ...and the Actions tab gets a "Run workflow" button for manual redeploys.
+  workflow_dispatch:
+
+# Lets the deploy job mint the token GitHub Pages needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# If two pushes land close together, let the newer one finish rather than
+# cancelling it — a half-cancelled deploy would leave the site stale.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      # No build step — the repo root is already the finished site, so the
+      # whole thing ships as-is.
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
