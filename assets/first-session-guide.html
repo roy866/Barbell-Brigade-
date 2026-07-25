@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>First Four Weeks | Barbell Brigade</title>
+
+    <!-- Kept out of search deliberately. This is what the email address on the
+         home page buys; robots.txt disallows it as well, belt and braces. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Standalone on purpose: this page gets printed, saved to a phone and
+         forwarded to friends, so it carries its own styles rather than
+         depending on the site's stylesheet still being reachable. Its palette
+         is the site's --paper tokens, because on screen it is the same object
+         the home page shows a corner of. -->
+    <style>
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+
+      :root {
+        --paper: #f2efe6;
+        --ink: #16150f;
+        --muted: #6b6759;
+        --rule: rgba(22, 21, 15, 0.14);
+        --plate-red: #d0342c;
+        --accent: #6d7d00; /* the site's acid green, darkened to survive print */
+        --font-display: "Oswald", "Arial Narrow", sans-serif;
+        --font-body: "Inter", system-ui, -apple-system, sans-serif;
+        --font-mono: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.25rem, 5vw, 3rem);
+        background: #e6e2d6;
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: 15px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .sheet {
+        max-width: 46rem;
+        margin-inline: auto;
+        padding: clamp(1.5rem, 4vw, 3rem);
+        background: var(--paper);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        line-height: 1.05;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 2.9rem);
+        letter-spacing: 0.01em;
+      }
+
+      h2 {
+        font-size: 1.25rem;
+        letter-spacing: 0.04em;
+        margin-top: 2.25rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 2px solid var(--ink);
+      }
+
+      h3 {
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        margin-top: 1.5rem;
+      }
+
+      p {
+        margin: 0.75rem 0 0;
+      }
+
+      /* -------------------------- Masthead -------------------------- */
+      .masthead {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding-bottom: 0.75rem;
+        border-bottom: 3px solid var(--ink);
+      }
+
+      .masthead-brand {
+        font-family: var(--font-display);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .standfirst {
+        margin-top: 1.25rem;
+        font-size: 1.05rem;
+        max-width: 34rem;
+      }
+
+      /* --------------------------- Content --------------------------- */
+      .lead-in {
+        margin-top: 1.5rem;
+        padding: 1rem 1.25rem;
+        border-left: 3px solid var(--plate-red);
+        background: rgba(22, 21, 15, 0.035);
+        font-size: 0.95rem;
+      }
+
+      ul {
+        margin: 0.75rem 0 0;
+        padding-left: 1.1rem;
+      }
+
+      li {
+        margin-bottom: 0.4rem;
+      }
+
+      .movement {
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--rule);
+      }
+
+      .movement:first-of-type {
+        border-top: 0;
+      }
+
+      .movement h3 {
+        margin-top: 0;
+      }
+
+      .cue {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.25rem 0.6rem;
+        background: var(--ink);
+        color: var(--paper);
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.03em;
+      }
+
+      /* ---------------------------- Tables ---------------------------- */
+      table {
+        width: 100%;
+        margin-top: 1rem;
+        border-collapse: collapse;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+      }
+
+      caption {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-display);
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-align: left;
+        color: var(--muted);
+      }
+
+      th,
+      td {
+        padding: 0.45rem 0.5rem;
+        border-bottom: 1px solid var(--rule);
+        text-align: left;
+      }
+
+      thead th {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border-bottom: 1.5px solid var(--ink);
+      }
+
+      /* Numeric columns right-align so they stack into readable columns — the
+         entire reason a program sheet is set in mono. */
+      th:not(:first-child),
+      td:not(:first-child) {
+        text-align: right;
+        width: 4.5rem;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      /* ----------------------------- Outro ---------------------------- */
+      .outro {
+        margin-top: 2.5rem;
+        padding-top: 1.25rem;
+        border-top: 3px solid var(--ink);
+      }
+
+      .outro a {
+        color: var(--ink);
+        text-decoration-color: var(--plate-red);
+        text-underline-offset: 3px;
+      }
+
+      .colophon {
+        margin-top: 1.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+      }
+
+      .page-two {
+        break-before: page;
+      }
+
+      /* ----------------------------- Print ---------------------------- */
+      @media print {
+        body {
+          padding: 0;
+          background: #fff;
+          font-size: 10.5pt;
+        }
+
+        .sheet {
+          max-width: none;
+          padding: 0;
+          box-shadow: none;
+          background: #fff;
+        }
+
+        /* A heading stranded at the foot of a page, or a table split across
+           one, is the difference between a sheet people keep and one they
+           reprint. */
+        h2,
+        h3 {
+          break-after: avoid;
+        }
+
+        table,
+        .movement,
+        .lead-in {
+          break-inside: avoid;
+        }
+
+        .no-print {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <article class="sheet">
+      <header class="masthead">
+        <span class="masthead-brand">Barbell Brigade</span>
+        <span class="masthead-brand">Beginner programme &middot; v1</span>
+      </header>
+
+      <h1>Your first<br />four weeks</h1>
+
+      <p class="standfirst">
+        Twelve sessions. Three a week, with a day off between each. This is the plan we hand people
+        on day one — you can run it here, or anywhere with a barbell and a rack.
+      </p>
+
+      <div class="lead-in">
+        <strong>Read this bit first.</strong> Every session below starts with an empty bar. That is
+        not a warm-up you are allowed to skip and it is not a comment on how strong you are — it is
+        how you find out what today's technique feels like before you commit to a number.
+      </div>
+
+      <h2>Before your first session</h2>
+      <ul>
+        <li><strong>Wear</strong> anything you can move in. Flat shoes if you own them; running trainers have a squashy heel that makes squatting harder than it needs to be.</li>
+        <li><strong>Bring</strong> a water bottle. That's the whole list.</li>
+        <li><strong>Arrive</strong> ten minutes early on day one so you're not learning the room and the lifts at the same time.</li>
+        <li><strong>Eat</strong> something an hour or two before. Training on an empty stomach is how a first session turns into a bad memory.</li>
+      </ul>
+
+      <h2>The four movements</h2>
+      <p>
+        Everything in the plan is one of these four, or an accessory that props one of them up. Learn
+        the cue and you can self-correct without a coach standing over you.
+      </p>
+
+      <div class="movement">
+        <h3>1 &middot; Squat — knees and hips bend together</h3>
+        <p>
+          Bar on your upper back, feet a bit wider than your hips, toes turned slightly out. Sit down
+          between your feet rather than folding forward over them.
+        </p>
+        <span class="cue">Cue: spread the floor apart with your feet</span>
+      </div>
+
+      <div class="movement">
+        <h3>2 &middot; Hinge — hips travel back, not down</h3>
+        <p>
+          The deadlift and the Romanian deadlift both live here. Your back stays flat, your shins stay
+          nearly vertical, and the movement happens at the hip.
+        </p>
+        <span class="cue">Cue: push your hips back to touch a wall behind you</span>
+      </div>
+
+      <div class="movement">
+        <h3>3 &middot; Press — ribs down before the bar goes up</h3>
+        <p>
+          Overhead or on a bench. Most beginners arch the lower back to get the bar moving; brace your
+          stomach as if expecting a light punch and the arch disappears.
+        </p>
+        <span class="cue">Cue: squeeze your glutes, then press</span>
+      </div>
+
+      <div class="movement">
+        <h3>4 &middot; Pull — elbows lead, shoulders stay down</h3>
+        <p>
+          Rows and, eventually, chin-ups. If you feel it in your neck and upper traps, you are
+          shrugging the weight instead of rowing it.
+        </p>
+        <span class="cue">Cue: put your shoulder blades in your back pockets</span>
+      </div>
+
+      <h2>How to know a weight is right</h2>
+      <p>
+        Here is the mistake nearly everyone makes: they pick the heaviest weight they can finish, and
+        then wonder why week three hurts. Use this instead.
+      </p>
+      <ul>
+        <li>Finish every set feeling like you could have done <strong>two or three more reps</strong>. Not one. Not zero.</li>
+        <li>If the last rep looks different from the first, the weight is wrong. Take some off — that is not a setback, it is the method.</li>
+        <li>Add weight only when all sets moved cleanly. Roughly 2.5&ndash;5&nbsp;kg on lower-body lifts, 1&ndash;2.5&nbsp;kg on upper.</li>
+        <li>Some days you'll be weaker for no reason you can name. Repeat the previous week rather than forcing it.</li>
+      </ul>
+
+      <div class="page-two">
+        <h2>Weeks 1 &amp; 2 — learning the shapes</h2>
+        <p>
+          Same three sessions both weeks. Repeating them is the point: week two is where the movement
+          stops taking up all your attention.
+        </p>
+
+        <table>
+          <caption>Session A &middot; Monday</caption>
+          <thead>
+            <tr><th scope="col">Movement</th><th scope="col">Sets</th><th scope="col">Reps</th><th scope="col">Load</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Back squat</td><td>3</td><td>8</td><td>Bar</td></tr>
+            <tr><td>Romanian deadlift</td><td>3</td><td>8</td><td>Bar</td></tr>
+            <tr><td>Bench press</td><td>3</td><td>8</td><td>Bar</td></tr>
+            <tr><td>Ring row</td><td>3</td><td>10</td><td>Body</td></tr>
+            <tr><td>Farmer carry</td><td>3</td><td>30 m</td><td>Light</td></tr>
+          </tbody>
+        </table>
+
+        <table>
+          <caption>Session B &middot; Wednesday</caption>
+          <thead>
+            <tr><th scope="col">Movement</th><th scope="col">Sets</th><th scope="col">Reps</th><th scope="col">Load</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Deadlift</td><td>3</td><td>5</td><td>Bar</td></tr>
+            <tr><td>Overhead press</td><td>3</td><td>8</td><td>Bar</td></tr>
+            <tr><td>Goblet squat</td><td>3</td><td>10</td><td>Light</td></tr>
+            <tr><td>Lat pulldown</td><td>3</td><td>10</td><td>Light</td></tr>
+            <tr><td>Dead hang</td><td>3</td><td>20 s</td><td>Body</td></tr>
+          </tbody>
+        </table>
+
+        <table>
+          <caption>Session C &middot; Friday</caption>
+          <thead>
+            <tr><th scope="col">Movement</th><th scope="col">Sets</th><th scope="col">Reps</th><th scope="col">Load</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Front squat</td><td>3</td><td>6</td><td>Bar</td></tr>
+            <tr><td>Bench press</td><td>3</td><td>8</td><td>Bar</td></tr>
+            <tr><td>Single-leg RDL</td><td>3</td><td>8</td><td>Light</td></tr>
+            <tr><td>Barbell row</td><td>3</td><td>8</td><td>Bar</td></tr>
+            <tr><td>Plank</td><td>3</td><td>30 s</td><td>Body</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Weeks 3 &amp; 4 — adding a little</h2>
+        <p>
+          Same three sessions, same order. Two changes only: one extra set on the first movement of
+          each session, and weight added wherever every set moved cleanly last week. Resist doing more
+          than that — the plan works because it is boring.
+        </p>
+
+        <table>
+          <caption>What changes</caption>
+          <thead>
+            <tr><th scope="col">Session</th><th scope="col">Wk 1&ndash;2</th><th scope="col">Wk 3&ndash;4</th><th scope="col">Reps</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>A &middot; Back squat</td><td>3</td><td>4</td><td>8</td></tr>
+            <tr><td>B &middot; Deadlift</td><td>3</td><td>4</td><td>5</td></tr>
+            <tr><td>C &middot; Front squat</td><td>3</td><td>4</td><td>6</td></tr>
+            <tr><td>Everything else</td><td>3</td><td>3</td><td>Same</td></tr>
+          </tbody>
+        </table>
+
+        <h2>The days you don't train</h2>
+        <p>
+          Four days a week you are not in the gym, and they matter more than most beginners expect.
+          You do not need to do anything clever with them.
+        </p>
+        <ul>
+          <li><strong>Walk.</strong> Twenty to thirty minutes. It does more for how you feel in week two than any stretching routine.</li>
+          <li><strong>Sleep.</strong> The training makes you stronger while you're asleep, not while you're lifting.</li>
+          <li><strong>Eat protein at every meal.</strong> No weighing, no app. Just make sure it's there.</li>
+          <li><strong>Expect to ache</strong> for two or three days after the first session, and much less after the second week. That's normal and it passes.</li>
+        </ul>
+
+        <div class="outro">
+          <h2 style="margin-top: 0; border: 0; padding: 0">When you want someone watching</h2>
+          <p>
+            Every line above is easier to read than to do. If you'd rather have a coach correcting the
+            first rep than a PDF describing it, your first week with us is free — seven days,
+            unlimited classes, and a one-to-one session before you set foot in a group class.
+          </p>
+          <p>
+            <a href="https://roy866.github.io/Barbell-Brigade-/#contact">Book your free week</a>
+            &nbsp;&middot;&nbsp;
+            <a href="mailto:hello@barbellbrigade.com">hello@barbellbrigade.com</a>
+          </p>
+          <p class="colophon">
+            Barbell Brigade &middot; 18 Ironworks Lane, Unit 04, Singapore 049513 &middot; General
+            guidance only, not medical advice. If something hurts in a way that isn't muscular, see a
+            physio before your next session.
+          </p>
+        </div>
+      </div>
+    </article>
+  </body>
+</html>

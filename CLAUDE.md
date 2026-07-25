@@ -28,8 +28,13 @@ the top of `styles.css`. Nothing downstream hard-codes a colour or font. **Rebra
 `:root`.** If you find yourself typing a hex value elsewhere in the stylesheet, add or reuse a
 token instead.
 
-`styles.css` is organised into 17 numbered sections with a table of contents in the header
-comment. `script.js` mirrors this with 7 numbered sections. Keep both maps in sync when adding
+The one deliberate exception is the `--paper-*` group and `--plate-red`, which colour the program
+card in §15. That card represents a printed training sheet, so it stays light while the page is
+dark and does not track a rebrand of `--bg`/`--text`. `--plate-red` is used exactly once, as the
+card's margin rule — keep it that way.
+
+`styles.css` is organised into 19 numbered sections with a table of contents in the header
+comment. `script.js` mirrors this with 8 numbered sections. Keep both maps in sync when adding
 code — put new rules in the section they belong to rather than appending to the end.
 
 ### The `js` class contract
@@ -37,7 +42,7 @@ code — put new rules in the section they belong to rather than appending to th
 Three files cooperate so scroll-reveal can't blank the page:
 
 1. An inline script in `index.html`'s `<head>` adds `js` to `<html>`.
-2. `styles.css` §16 hides `.reveal` elements **only** under `.js .reveal`.
+2. `styles.css` §18 hides `.reveal` elements **only** under `.js .reveal`.
 3. `script.js` §3 adds `.is-visible` via `IntersectionObserver`.
 
 Without JS, nothing is ever hidden. Any new hide-then-animate effect must follow this pattern —
@@ -54,6 +59,22 @@ The contact form's validation lives in a `rules` array in §6; each entry's `id`
 an input's `id` and its error paragraph's `id + "Error"`. Add a field by adding markup **and** a
 rule.
 
+The starter-kit form (§8) is one field, so it has its own small handler rather than a rule in that
+array. Shared constants — `EMAIL_RE`, `ENQUIRY_ENDPOINT`, `CONTACT_FALLBACK`, `HONEYPOT_FIELD`,
+`GUIDE_URL` — sit at the top of the IIFE because §6, §7 and §8 all use them. Do not move them back
+inside a section: `var` hoists, so it would still *work*, right up until that section's element is
+removed and the others break silently.
+
+### Structured data must match visible copy
+
+`index.html` carries two JSON-LD blocks: `HealthClub` + `WebSite` in the `<head>`, and `FAQPage`
+immediately after the FAQ section. Google discards markup asserting things the page does not say,
+so **every value in them is duplicated from rendered copy and has to be changed in both places.**
+The membership prices live in three: the pricing cards, the FAQ answer, and `hasOfferCatalog`.
+
+Never add `aggregateRating` or `geo` here. There are no real reviews or a surveyed location behind
+this build, and fabricated review markup is the one schema mistake that draws a manual action.
+
 ### Animation is opt-in per element
 
 Adding class `reveal` to any element enrols it in the scroll-reveal observer. Grids stagger
@@ -65,18 +86,30 @@ automatically because the observer offsets siblings within a batch.
 skips counter animation, carousel autoplay, and the reveal observer entirely (revealing
 everything immediately instead). New motion needs handling in whichever layer introduces it.
 
-### The logo exists in four places
+### The logo exists in five places
 
-`assets/logo.svg` (standalone), `assets/favicon.svg` (rounded tile for the tab), and inlined
-twice in `index.html` — header and footer. The inline copies use classes (`.bar`, `.plate-outer`,
-`.plate-inner`) so CSS recolours them from `--text` / `--accent`; the standalone files carry
-literal hex fills. Changing the mark means updating all four.
+`assets/logo.svg` (standalone), `assets/favicon.svg` (rounded tile for the tab), inlined twice in
+`index.html` — header and footer — and inlined once more in the source of `assets/og-image.png`.
+The inline copies use classes (`.bar`, `.plate-outer`, `.plate-inner`) so CSS recolours them from
+`--text` / `--accent`; the standalone files carry literal hex fills. Changing the mark means
+updating all five, and the OG image has to be re-rendered rather than edited.
+
+### The guide is a standalone document
+
+`assets/first-session-guide.html` is what the §8 form delivers. It carries its own styles and does
+**not** link `styles.css` — it gets printed, saved to phones and forwarded, so it cannot depend on
+the site's stylesheet being reachable. It repeats the `--paper-*` values as local literals; if
+those change, change them here too. It is `noindex` and disallowed in `robots.txt`, which is what
+makes it worth an email address.
 
 ## Known placeholders
 
-The contact form posts to FormSubmit (`ENQUIRY_ENDPOINT` in `script.js` §6) and is real, but
-delivery depends on someone having clicked FormSubmit's one-time activation email — until then
-submissions go nowhere. The newsletter form still `console.log`s its payload (§7). All
-imagery is `picsum.photos` with stable `seed` values, and the contact map is a CSS-striped `div`,
-not a real embed. Coach names, quotes, prices and the timetable are illustrative copy. Don't
-treat any of these as working integrations.
+The contact form (§6) and the starter-kit form (§8) both post to FormSubmit
+(`ENQUIRY_ENDPOINT`, now at the top of `script.js`) and are real, but delivery depends on someone
+having clicked FormSubmit's one-time activation email — until then submissions go nowhere. The
+newsletter form still `console.log`s its payload (§7).
+
+All imagery is `picsum.photos` with stable `seed` values — including the photo baked into
+`assets/og-image.png` — and the contact map is a CSS-striped `div`, not a real embed. Coach names,
+quotes, prices, the timetable and the "1,200+ members" proof line under the starter-kit form are
+illustrative copy. Don't treat any of these as working integrations.

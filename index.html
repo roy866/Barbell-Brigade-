@@ -46,13 +46,17 @@
       content="https://roy866.github.io/Barbell-Brigade-/assets/og-image.png"
     />
 
-    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="theme-color" content="#0f1d2e" />
 
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Archivo is requested with its width axis, because the design uses it
+         expanded (112%) rather than at normal width. Dropping `wdth` from this
+         URL loads a family that cannot stretch, and every heading silently
+         falls back to normal width. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Karla:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -241,7 +245,68 @@
           <p class="hero-note reveal">No joining fee &middot; Cancel anytime &middot; First session is 1-on-1</p>
         </div>
 
-        <a class="scroll-cue" href="#stats" aria-label="Scroll to next section"></a>
+        <a class="scroll-cue" href="#countdown" aria-label="Scroll to next section"></a>
+      </section>
+
+      <!-- ============================= COUNTDOWN ============================= -->
+      <!-- A countdown with nothing to say is decoration. This one carries the
+           argument the whole page is making: the reader is probably planning to
+           start in January, and the clock is what that intention costs. The
+           numbers are the point being made, not an ornament around it. -->
+      <section class="countdown" id="countdown" aria-labelledby="countdownHeading">
+        <div class="container countdown-inner">
+          <div class="countdown-copy">
+            <p class="eyebrow">The January problem</p>
+            <h2 id="countdownHeading">Most people start on 1 January.</h2>
+            <p class="countdown-lead">
+              Then they stop by February, because a date on a calendar is not a plan. Here is what
+              waiting for the new year actually costs — and it is the same amount of training you
+              could have already done by then.
+            </p>
+            <a href="#contact" class="btn btn-primary">Start this week instead</a>
+          </div>
+
+          <div class="countdown-clock">
+            <p class="countdown-caption">Until 1 January 2027 &middot; Singapore time</p>
+
+            <!-- Hidden from assistive tech on purpose. A region that changes
+                 every second is unusable with a screen reader — it either
+                 interrupts constantly or reads a number that is already stale.
+                 The sentence below carries the same fact, and is rewritten only
+                 when the day rolls over. -->
+            <ol class="countdown-units" id="cdUnits" aria-hidden="true">
+              <li class="countdown-unit">
+                <span class="countdown-value" id="cdDays">—</span>
+                <span class="countdown-name">Days</span>
+              </li>
+              <li class="countdown-unit">
+                <span class="countdown-value" id="cdHours">—</span>
+                <span class="countdown-name">Hours</span>
+              </li>
+              <li class="countdown-unit">
+                <span class="countdown-value" id="cdMinutes">—</span>
+                <span class="countdown-name">Mins</span>
+              </li>
+              <li class="countdown-unit countdown-seconds" id="cdSecondsUnit">
+                <span class="countdown-value" id="cdSeconds">—</span>
+                <span class="countdown-name">Secs</span>
+              </li>
+            </ol>
+
+            <p class="visually-hidden" id="cdSummary">
+              Counting down to 1 January 2027, Singapore time.
+            </p>
+
+            <p class="countdown-over" id="cdOver" hidden>
+              It's January. The good news is that the free week did not expire, and neither did the
+              plan — start now and February looks different.
+            </p>
+
+            <p class="countdown-note">
+              Nothing here expires on that date. It is just the wait you'd be signing up for.
+            </p>
+          </div>
+        </div>
       </section>
 
       <!-- ============================= STATS ============================= -->
@@ -855,6 +920,113 @@
         </div>
       </section>
 
+      <!-- ============================= STARTER KIT ============================= -->
+      <!-- The small ask, deliberately placed one section above the big one.
+           Booking a free week means turning up in a room full of strangers;
+           most readers are not there yet. This asks for an email and nothing
+           else — one field, because every extra field costs conversions and
+           the four-field form below is already the higher-commitment path. -->
+      <section class="section kit-section" id="starter-kit">
+        <div class="container kit-grid">
+          <div class="kit-copy reveal">
+            <p class="eyebrow">Free download</p>
+            <h2>Your first four weeks, written down.</h2>
+            <p class="kit-lead">
+              The single biggest reason people quit in week one is not knowing what to do when they
+              get there. So here is the plan — the same one we hand members on day one, twelve
+              sessions mapped out, before you've paid us anything.
+            </p>
+
+            <ul class="kit-includes">
+              <li>Twelve sessions, laid out week by week with sets and reps</li>
+              <li>The four lifts everything is built on, and the one cue that fixes each</li>
+              <li>How to tell a weight is right — and the mistake nearly everyone makes</li>
+              <li>What to wear, what to bring, and when to turn up</li>
+              <li>What to do on the days you don't train</li>
+            </ul>
+
+            <form class="kit-form" id="kitForm" novalidate>
+              <div class="field">
+                <label for="kitEmail">Email address</label>
+                <div class="kit-input-row">
+                  <input
+                    type="email"
+                    id="kitEmail"
+                    name="kitEmail"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                    aria-describedby="kitError"
+                  />
+                  <button type="submit" class="btn btn-primary">Send me the plan</button>
+                </div>
+                <p class="error" id="kitError"></p>
+              </div>
+
+              <!-- Same spam trap as the enquiry form: hidden from sight, from
+                   the tab order and from the accessibility tree, so only a bot
+                   filling every field it finds reaches it. -->
+              <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" hidden />
+
+              <p class="kit-smallprint">
+                One email with the plan in it, sent the moment you hit the button. No spam, and
+                unsubscribing costs you nothing — you keep the plan.
+              </p>
+              <p class="form-status" id="kitStatus" role="status" aria-live="polite"></p>
+            </form>
+
+            <!-- Shown in place of the form once the address is captured. The
+                 download link is the instant payoff and the free-week button is
+                 the actual next step — a confirmation that only says "thanks"
+                 wastes the one moment the reader is certain to be looking. -->
+            <div class="kit-done" id="kitDone" hidden>
+              <h3>On its way.</h3>
+              <p>
+                We've sent the plan to <span class="kit-done-email" id="kitDoneEmail"></span>. It
+                prints onto two sides of one sheet — or keep it on your phone and bring it with you.
+              </p>
+              <div class="kit-done-actions">
+                <a class="btn btn-ghost" href="assets/first-session-guide.html">Open it now</a>
+                <a class="btn btn-primary" href="#contact">Book my free week</a>
+              </div>
+            </div>
+
+            <p class="kit-proof">The same sheet 1,200+ members started on.</p>
+          </div>
+
+          <!-- Signature element: the preview is not an ebook cover, it is the
+               artifact this gym actually prints — a coach's program card, ruled
+               and set in mono because that is how a training sheet is read at
+               arm's length between sets. Hidden from assistive tech: every fact
+               on it is already in the list above, and a screen reader spelling
+               out a sets-and-reps grid is noise, not information. -->
+          <div class="kit-preview reveal" aria-hidden="true">
+            <div class="sheet sheet-under"></div>
+            <div class="sheet sheet-top">
+              <header class="sheet-head">
+                <span class="sheet-brand">Barbell Brigade</span>
+                <span class="sheet-title">First Four Weeks</span>
+              </header>
+              <p class="sheet-session">Week 1 &middot; Session 1</p>
+              <table class="sheet-table">
+                <thead>
+                  <tr><th>Movement</th><th>Sets</th><th>Reps</th><th>Load</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Back squat</td><td>3</td><td>8</td><td>Bar</td></tr>
+                  <tr><td>Romanian deadlift</td><td>3</td><td>8</td><td>Bar</td></tr>
+                  <tr><td>Bench press</td><td>3</td><td>8</td><td>Bar</td></tr>
+                  <tr><td>Ring row</td><td>3</td><td>10</td><td>Body</td></tr>
+                  <tr><td>Farmer carry</td><td>3</td><td>30m</td><td>Light</td></tr>
+                </tbody>
+              </table>
+              <p class="sheet-note">
+                If the last rep isn't as clean as the first, the weight is wrong. Take some off.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ============================= CONTACT ============================= -->
       <section class="section" id="contact">
         <div class="container section-head reveal">
@@ -963,7 +1135,9 @@
           <a href="#programs">Programs</a>
           <a href="#coaches">Coaches</a>
           <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
           <a href="#schedule">Schedule</a>
+          <a href="#starter-kit">Free first-four-weeks plan</a>
         </nav>
 
         <div class="footer-newsletter">

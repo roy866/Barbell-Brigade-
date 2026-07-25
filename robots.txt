@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Served as raw markdown with no build step to render it, so it would index as
+# a wall of source text under the site's own domain.
+Disallow: /README.md
+
+# Delivered after the email capture on the home page. Keeping it out of search
+# is what makes it worth an email address.
+Disallow: /assets/first-session-guide.html
+
+Sitemap: https://roy866.github.io/Barbell-Brigade-/sitemap.xml

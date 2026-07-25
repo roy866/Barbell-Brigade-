@@ -11,35 +11,89 @@
    9. Programs
   10. Coaches
   11. Pricing
-  12. Schedule table
-  13. Testimonial carousel
-  14. Contact
-  15. Footer
-  16. Scroll reveal
-  17. Responsive
+  12. FAQ
+  13. Schedule table
+  14. Testimonial carousel
+  15. Starter kit
+  16. Contact
+  17. Footer
+  18. Scroll reveal
+  19. Responsive
   ========================================================================= */
 
 /* ---------------------------- 1. Design tokens --------------------------- */
 :root {
   color-scheme: dark;
 
-  /* Colour */
-  --bg: #0d0d0d;
-  --bg-alt: #121212;
-  --surface: #181818;
-  --surface-hi: #202020;
-  --border: rgba(255, 255, 255, 0.1);
-  --border-hi: rgba(255, 255, 255, 0.22);
+  /* Colour — "Chalk on Platform".
 
-  --text: #f5f5f5;
-  --muted: #a3a3a3;
-  --accent: #c8ff00;
-  --accent-dim: #a8d600;
-  --danger: #ff6b5e;
+     The palette is the gym's own colour code. Olympic plates are standardised
+     by weight the world over: 25 kg red, 20 kg blue, 15 kg yellow, 10 kg green.
+     Anyone who has loaded a bar reads those instantly, and nobody else uses
+     them — which is the point. The ground is the deep blue of a 20 kg plate,
+     the accent is the yellow of a 15 kg, and the type is the colour of chalk.
 
-  /* Type */
-  --font-display: "Oswald", "Arial Narrow", sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+     Why not the black-and-acid-green this replaced: that is the visual language
+     of hardcore-gym branding, and this gym's entire pitch is that it is not
+     that. "Zero intimidation" set in shouting neon was the design arguing with
+     the copy. Deep blue reads calm and warm yellow reads human, which is what
+     a beginner needs to see before they will walk in. */
+  --bg: #0f1d2e;
+  --bg-alt: #0b1725;
+  --surface: #17293c;
+  --surface-hi: #203449;
+  --border: rgba(241, 237, 228, 0.13);
+  --border-hi: rgba(241, 237, 228, 0.28);
+
+  --text: #f1ede4;
+  --muted: #9fb0c2;
+  --accent: #f5b72e;
+  --accent-dim: #dc9d17;
+  --danger: #ff8f7d;
+
+  /* Ink for text sitting ON an accent fill — buttons, tags, the skip link.
+     It was #0d0d0d hard-coded in six rules before, which quietly made the old
+     background impossible to change from :root alone. */
+  --on-accent: #10202f;
+
+  /* Channel values for the same colours, so translucent layers (the sticky
+     header, the hero scrim, accent tints) can be built with rgba() and still
+     follow a rebrand. Without these, changing --bg leaves a dozen frosted
+     surfaces still tinted with the previous background. */
+  --bg-rgb: 15, 29, 46;
+  --text-rgb: 241, 237, 228;
+  --accent-rgb: 245, 183, 46;
+
+  /* Paper. The starter-kit preview is the one place on this site that is not
+     dark — it stands in for a physical printed program card, so it carries its
+     own small palette rather than inverting the page tokens. --plate-red is the
+     colour of a 25kg Olympic plate and is used for exactly one hairline. */
+  --paper: #f2efe6;
+  --paper-ink: #16150f;
+  --paper-muted: #6b6759;
+  --paper-rule: rgba(22, 21, 15, 0.11);
+
+  /* The rest of the plate code. Red doubles as the program card's margin rule;
+     green only ever labels the beginner programs. */
+  --plate-red: #d0342c;
+  --plate-green: #6cc24a;
+
+  /* Type.
+
+     Archivo is set at a width above 100% — expanded, not condensed. That is a
+     deliberate reversal: condensed uppercase is the default gym-poster voice,
+     and it reads as shouting. A wide face sits low and planted, which is what a
+     good stance looks like and what this brand is trying to sound like.
+
+     Karla for body: a grotesque with enough warmth in the lowercase to stop the
+     page feeling like a spreadsheet, and a large x-height for the long copy. */
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Karla", system-ui, -apple-system, sans-serif;
+  --display-width: 112%;
+  /* A third role — data — for the program card. System stack on purpose: a
+     training sheet is printed in whatever mono the printer had, and it costs no
+     extra network request on a site with no build step. */
+  --font-mono: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, Consolas, monospace;
 
   /* Spacing & shape */
   --gap: 1.5rem;
@@ -73,8 +127,8 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 
-  /* Subtle grain so the flat black doesn't read as dead space */
-  background-image: radial-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  /* Subtle grain so the flat ground doesn't read as dead space */
+  background-image: radial-gradient(rgba(var(--text-rgb), 0.03) 1px, transparent 1px);
   background-size: 3px 3px;
 }
 
@@ -84,31 +138,41 @@ svg {
   max-width: 100%;
 }
 
+/* Sentence case, not uppercase. Headings here are sentences — "You don't need
+   to be fit to start here." — and setting a sentence in caps turns a reassurance
+   into a command. Uppercase is kept below for the things that are genuinely
+   labels: eyebrows, buttons, table headers, h4. */
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1.02;
+  letter-spacing: -0.015em;
+  line-height: 1.03;
   margin: 0;
 }
 
 h1 {
-  font-size: clamp(2.8rem, 7.5vw, 5.75rem);
+  font-size: clamp(2.6rem, 6.8vw, 5.1rem);
+  letter-spacing: -0.025em;
 }
 h2 {
-  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  letter-spacing: -0.02em;
 }
 h3 {
-  font-size: 1.3rem;
-  letter-spacing: 0.02em;
+  font-size: 1.28rem;
+  letter-spacing: -0.01em;
 }
+
+/* The one heading level that really is a label. */
 h4 {
-  font-size: 1rem;
-  letter-spacing: 0.1em;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 p {
@@ -134,7 +198,7 @@ textarea {
 
 ::selection {
   background: var(--accent);
-  color: #0d0d0d;
+  color: var(--on-accent);
 }
 
 /* ---------------------------- 3. Utilities ------------------------------- */
@@ -171,6 +235,7 @@ textarea {
   display: inline-block;
   margin-bottom: 1rem;
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -201,7 +266,7 @@ textarea {
   z-index: 100;
   padding: 0.75rem 1.25rem;
   background: var(--accent);
-  color: #0d0d0d;
+  color: var(--on-accent);
   font-weight: 700;
   text-decoration: none;
   transition: top var(--speed) var(--ease);
@@ -233,6 +298,7 @@ textarea {
   border: 2px solid transparent;
   border-radius: var(--radius);
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -246,7 +312,7 @@ textarea {
 .btn-primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #0d0d0d;
+  color: var(--on-accent);
 }
 
 .btn-primary:hover {
@@ -276,14 +342,14 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(13, 13, 13, 0.72);
+  background: rgba(var(--bg-rgb), 0.72);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid transparent;
   transition: background var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
 .site-header.scrolled {
-  background: rgba(13, 13, 13, 0.94);
+  background: rgba(var(--bg-rgb), 0.94);
   border-bottom-color: var(--border);
 }
 
@@ -319,6 +385,7 @@ textarea {
 
 .brand-name {
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -371,6 +438,7 @@ textarea {
   border: 2px solid var(--accent);
   border-radius: var(--radius);
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
@@ -382,7 +450,7 @@ textarea {
 
 .site-nav .nav-cta:hover {
   background: var(--accent);
-  color: #0d0d0d;
+  color: var(--on-accent);
 }
 
 /* Hamburger */
@@ -449,9 +517,9 @@ textarea {
   inset: 0;
   background: linear-gradient(
       100deg,
-      rgba(13, 13, 13, 0.96) 0%,
-      rgba(13, 13, 13, 0.86) 45%,
-      rgba(13, 13, 13, 0.55) 100%
+      rgba(var(--bg-rgb), 0.96) 0%,
+      rgba(var(--bg-rgb), 0.86) 45%,
+      rgba(var(--bg-rgb), 0.55) 100%
     );
 }
 
@@ -676,7 +744,7 @@ textarea {
 .stats {
   padding-block: clamp(2.5rem, 5vw, 3.5rem);
   background: var(--accent);
-  color: #0d0d0d;
+  color: var(--on-accent);
 }
 
 .stats-grid {
@@ -692,6 +760,7 @@ textarea {
 .stat-number {
   display: block;
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: clamp(2.2rem, 4vw, 3.25rem);
   font-weight: 700;
   line-height: 1;
@@ -727,7 +796,7 @@ textarea {
   margin-bottom: 1.25rem;
   display: grid;
   place-items: center;
-  background: rgba(200, 255, 0, 0.12);
+  background: rgba(var(--accent-rgb), 0.12);
   border-radius: var(--radius);
 }
 
@@ -786,23 +855,28 @@ textarea {
   padding: 0.3rem 0.7rem;
   border-radius: var(--radius);
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
+/* Difficulty runs green → yellow → red because that is the order the plates go
+   on the bar: 10 kg green, 15 kg yellow, 25 kg red. Anyone who lifts already
+   knows this scale, and for everyone else it still reads as easy → hard. The
+   old colours were an arbitrary lime/orange pair that encoded nothing. */
 .tag-easy {
-  background: #d9f99d;
-  color: #14200a;
+  background: var(--plate-green);
+  color: var(--on-accent);
 }
 .tag-mid {
   background: var(--accent);
-  color: #0d0d0d;
+  color: var(--on-accent);
 }
 .tag-hard {
-  background: #ff8a3d;
-  color: #1c0d02;
+  background: var(--plate-red);
+  color: var(--text);
 }
 
 .program-body {
@@ -898,8 +972,9 @@ textarea {
   padding: 0.35rem 0.9rem;
   background: var(--accent);
   border-radius: var(--radius);
-  color: #0d0d0d;
+  color: var(--on-accent);
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -908,6 +983,7 @@ textarea {
 
 .plan-price {
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 1rem;
   color: var(--muted);
   letter-spacing: 0.06em;
@@ -954,7 +1030,92 @@ textarea {
   transform: rotate(-45deg);
 }
 
-/* -------------------------- 12. Schedule table --------------------------- */
+/* ------------------------------- 12. FAQ --------------------------------- */
+/* 46rem, not a rounder number: .section-head is 46rem and both are centred by
+   .container's auto margins, so any other width steps their left edges out of
+   line with the heading directly above. */
+.faq-list {
+  max-width: 46rem;
+  border-top: 1px solid var(--border);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+
+/* Questions are set in the body face and sentence case while every other
+   heading on this page is condensed uppercase. That is deliberate: the rest of
+   the site is making statements, and a question that shouts reads as an
+   objection rather than an answer to one. */
+.faq-item summary {
+  position: relative;
+  padding: 1.35rem 3.5rem 1.35rem 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--speed) var(--ease);
+}
+
+/* Both are needed: list-style covers Firefox, the pseudo-element covers Safari
+   and older Chrome, and neither alone removes the default triangle everywhere. */
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary:hover {
+  color: var(--accent);
+}
+
+/* A plus built from the two bars in the logo mark — same rounded ends, same
+   accent — that loses its upright when the answer opens. */
+.faq-item summary::before,
+.faq-item summary::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.faq-item summary::before {
+  right: 0;
+  width: 22px;
+  height: 5px;
+  margin-top: -2.5px;
+}
+
+.faq-item summary::after {
+  right: 8.5px; /* (22 − 5) ÷ 2, so the upright is centred on the bar */
+  width: 5px;
+  height: 22px;
+  margin-top: -11px;
+  transition: transform var(--speed) var(--ease);
+}
+
+.faq-item[open] summary::after {
+  transform: scaleY(0);
+}
+
+.faq-answer {
+  padding: 0 3.5rem 1.6rem 0;
+  color: var(--muted);
+  max-width: 44rem;
+}
+
+.faq-item[open] .faq-answer {
+  animation: faq-open 260ms var(--ease) both;
+}
+
+@keyframes faq-open {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* -------------------------- 13. Schedule table --------------------------- */
 .table-scroll {
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -980,6 +1141,7 @@ textarea {
 .schedule-table thead th {
   background: var(--surface-hi);
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -990,6 +1152,7 @@ textarea {
 .schedule-table tbody th {
   background: var(--surface);
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-weight: 600;
   letter-spacing: 0.06em;
   color: var(--text);
@@ -1010,7 +1173,7 @@ textarea {
 }
 
 .schedule-table .empty {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(var(--text-rgb), 0.25);
 }
 
 .table-hint {
@@ -1021,7 +1184,7 @@ textarea {
   color: var(--muted);
 }
 
-/* --------------------------- 13. Carousel -------------------------------- */
+/* --------------------------- 14. Carousel -------------------------------- */
 .carousel-viewport {
   overflow: hidden;
   border: 1px solid var(--border);
@@ -1050,6 +1213,7 @@ textarea {
 .slide blockquote p {
   margin-bottom: 1.75rem;
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: clamp(1.15rem, 2.4vw, 1.85rem);
   font-weight: 500;
   line-height: 1.4;
@@ -1074,6 +1238,7 @@ textarea {
 
 .slide-name {
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -1140,7 +1305,246 @@ textarea {
   transform: scale(1.3);
 }
 
-/* ----------------------------- 14. Contact ------------------------------- */
+/* --------------------------- 15. Starter kit ----------------------------- */
+/* Its own background rather than .section-alt: this sits between an alt section
+   and a plain one, so reusing either would dissolve one of its two edges. The
+   accent wash also marks it as the page's one commercial interruption. */
+.kit-section {
+  position: relative;
+  background: radial-gradient(120% 110% at 12% 0%, rgba(var(--accent-rgb), 0.075), transparent 62%),
+    var(--bg-alt);
+  border-block: 1px solid var(--border);
+}
+
+.kit-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.kit-copy h2 {
+  margin-bottom: 1.25rem;
+}
+
+.kit-lead {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 34rem;
+}
+
+.kit-includes {
+  margin: 1.75rem 0 2rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 34rem;
+}
+
+.kit-includes li {
+  position: relative;
+  padding-left: 1.9rem;
+  font-size: 0.98rem;
+}
+
+/* A loaded bar end-on, which is what a plate looks like from the front. */
+.kit-includes li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 12px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.kit-form {
+  max-width: 34rem;
+}
+
+.kit-input-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.kit-input-row input {
+  flex: 1;
+  min-width: 0; /* flex items refuse to shrink below their content width without it */
+}
+
+.kit-input-row .btn {
+  flex-shrink: 0;
+  padding-inline: 1.5rem;
+}
+
+.kit-smallprint {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.kit-done {
+  max-width: 34rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-lg);
+}
+
+.kit-done h3 {
+  margin-bottom: 0.6rem;
+  color: var(--accent);
+}
+
+.kit-done-email {
+  font-weight: 600;
+  color: var(--text);
+  overflow-wrap: anywhere; /* a long address must not widen the panel */
+}
+
+.kit-done-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.kit-proof {
+  margin-top: 1.25rem;
+  font-family: var(--font-display);
+  font-stretch: var(--display-width);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* The preview is a printed program card, not an ebook cover: two sheets on a
+   desk, the top one squared up by hand and therefore not quite square. */
+.kit-preview {
+  position: relative;
+}
+
+.sheet {
+  background: var(--paper);
+  color: var(--paper-ink);
+  border-radius: 2px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.sheet-under {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-3deg) translate(-14px, 14px);
+  background: #ddd8c9; /* the sheet below is in the top sheet's shadow */
+}
+
+.sheet-top {
+  position: relative;
+  transform: rotate(1.2deg);
+  padding: 1.9rem 1.9rem 1.6rem 2.6rem;
+}
+
+/* The margin rule down a training log, in 25 kg plate red. The only place this
+   colour appears on the site — spend it once. */
+.sheet-top::before {
+  content: "";
+  position: absolute;
+  left: 1.6rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--plate-red);
+  opacity: 0.55;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid var(--paper-ink);
+}
+
+.sheet-brand {
+  font-family: var(--font-display);
+  font-stretch: var(--display-width);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper-muted);
+}
+
+.sheet-title {
+  font-family: var(--font-display);
+  font-stretch: var(--display-width);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.sheet-session {
+  margin: 0.9rem 0 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-muted);
+}
+
+.sheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.sheet-table th {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--paper-rule);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--paper-muted);
+}
+
+.sheet-table td {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--paper-rule);
+}
+
+/* Numbers right-align so sets and reps stack into readable columns, which is
+   the entire reason a program sheet is set in mono. */
+.sheet-table th:not(:first-child),
+.sheet-table td:not(:first-child) {
+  text-align: right;
+  width: 3.6rem;
+}
+
+.sheet-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.sheet-note {
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--paper-rule);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--paper-muted);
+}
+
+/* ----------------------------- 16. Contact ------------------------------- */
 .contact-grid {
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
@@ -1173,6 +1577,7 @@ textarea {
   display: block;
   margin-bottom: 0.3rem;
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -1206,6 +1611,7 @@ textarea {
   border-radius: var(--radius-lg);
   color: var(--muted);
   font-family: var(--font-display);
+  font-stretch: var(--display-width);
   font-size: 0.85rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1253,7 +1659,7 @@ textarea {
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(255, 255, 255, 0.32);
+  color: rgba(var(--text-rgb), 0.32);
 }
 
 .field input:focus,
@@ -1281,7 +1687,14 @@ textarea {
   color: var(--accent);
 }
 
-/* ------------------------------ 15. Footer ------------------------------- */
+/* Failure state for the two single-field forms, which have no .field wrapper to
+   turn red. A class rather than an inline style so the colour keeps coming from
+   the token instead of a hex literal in script.js. */
+.form-status.is-error {
+  color: var(--danger);
+}
+
+/* ------------------------------ 17. Footer ------------------------------- */
 .site-footer {
   padding-top: clamp(3rem, 6vw, 4.5rem);
   background: var(--bg-alt);
@@ -1384,7 +1797,7 @@ textarea {
 
 .socials a:hover {
   border-color: var(--accent);
-  background: rgba(200, 255, 0, 0.08);
+  background: rgba(var(--accent-rgb), 0.08);
 }
 
 .socials a:hover svg {
@@ -1411,7 +1824,7 @@ textarea {
   color: var(--accent);
 }
 
-/* --------------------------- 16. Scroll reveal --------------------------- */
+/* --------------------------- 18. Scroll reveal --------------------------- */
 /* The hidden state only applies once JS has confirmed it is running, so the
    page stays fully readable if scripts fail or are disabled. */
 .js .reveal {
@@ -1425,7 +1838,7 @@ textarea {
   transform: none;
 }
 
-/* ---------------------------- 17. Responsive ----------------------------- */
+/* ---------------------------- 19. Responsive ----------------------------- */
 @media (max-width: 1024px) {
   .card-grid.four {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1441,6 +1854,16 @@ textarea {
 
   .footer-brand {
     grid-column: 1 / -1;
+  }
+
+  /* Two columns stop working before the tablet breakpoint here — the program
+     card needs its width to keep the sets-and-reps columns from wrapping. */
+  .kit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kit-preview {
+    max-width: 30rem;
   }
 }
 
@@ -1464,7 +1887,7 @@ textarea {
     padding: 0 1.25rem;
     max-height: 0;
     overflow: hidden;
-    background: rgba(13, 13, 13, 0.98);
+    background: rgba(var(--bg-rgb), 0.98);
     border-bottom: 1px solid transparent;
     transition: max-height 320ms var(--ease), padding 320ms var(--ease);
   }
@@ -1594,6 +2017,28 @@ textarea {
 
   .hero-actions .btn {
     width: 100%;
+  }
+
+  /* Side-by-side leaves the email field too narrow to read a typo in. */
+  .kit-input-row {
+    flex-direction: column;
+  }
+
+  .sheet-top {
+    padding: 1.35rem 1.25rem 1.25rem 2rem;
+  }
+
+  .sheet-top::before {
+    left: 1.1rem;
+  }
+
+  .faq-item summary {
+    padding-right: 2.75rem;
+    font-size: 1rem;
+  }
+
+  .faq-answer {
+    padding-right: 0;
   }
 }
 

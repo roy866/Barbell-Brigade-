@@ -7,12 +7,71 @@
    5. Testimonial carousel
    6. Contact form validation
    7. Newsletter form
+   8. Starter-kit download capture
    ========================================================================= */
 
 (function () {
   "use strict";
 
   var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* Shared by more than one form, so these live up here rather than inside
+     whichever section happened to need them first. §6 and §8 are both lead
+     capture into the same inbox: two copies of an endpoint is one copy that
+     gets missed when it changes. */
+
+  // Deliberately loose: the only thing worth rejecting in the browser is a
+  // typo, and the address is really verified by whether the email arrives.
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  // Where enquiries go. FormSubmit relays to this address; it needs no account,
+  // but the FIRST submission triggers a confirmation email that must be clicked
+  // before anything is delivered.
+  //
+  // The address is visible in the page source here, which is scrapeable. After
+  // activating, FormSubmit issues an alias (formsubmit.co/ajax/<hash>) that
+  // relays to the same inbox without publishing it — swap it in below and
+  // nothing else needs to change.
+  var ENQUIRY_ENDPOINT = "https://formsubmit.co/ajax/roy@steerconstruction.com";
+  var CONTACT_FALLBACK = "roy@steerconstruction.com";
+  var HONEYPOT_FIELD = "_honey";
+
+  // Absolute because it travels in an email. robots.txt keeps this page out of
+  // search, which is what makes it worth an email address.
+  var GUIDE_URL = "https://roy866.github.io/Barbell-Brigade-/assets/first-session-guide.html";
+
+  // The goal <select> submits terse values; both the relayed notification and
+  // the mailto fallback read better with the words the member actually chose.
+  var GOAL_LABELS = {
+    general: "Just get fit and feel better",
+    strength: "Get stronger",
+    weight: "Lose weight",
+    return: "Return after a break or injury",
+    performance: "Train for a sport or event",
+  };
+
+  // Last-resort delivery path when the relay refuses. A mailto: depends on
+  // nothing but the visitor's own mail client, so it survives the relay being
+  // down, rate-limited or not yet activated — the cases where an enquiry would
+  // otherwise be lost silently.
+  function buildEnquiryMailto(payload) {
+    var lines = [
+      "Name:  " + payload.name,
+      "Email: " + payload.email,
+      "Phone: " + payload.phone,
+      "Goal:  " + (GOAL_LABELS[payload.goal] || payload.goal),
+      "",
+      payload.message || "(no additional message)",
+    ];
+    return (
+      "mailto:" +
+      CONTACT_FALLBACK +
+      "?subject=" +
+      encodeURIComponent("Free week request — " + payload.name) +
+      "&body=" +
+      encodeURIComponent(lines.join("\n"))
+    );
+  }
 
   /* ------------------------ 1. Mobile navigation ------------------------- */
   var menuToggle = document.getElementById("menuToggle");
@@ -259,29 +318,6 @@
     var formStatus = document.getElementById("formStatus");
     var submitBtn = contactForm.querySelector('button[type="submit"]');
 
-    // Where enquiries go. FormSubmit relays to this address; it needs no
-    // account, but the FIRST submission triggers a confirmation email that
-    // must be clicked before anything is delivered.
-    //
-    // The address is visible in the page source here, which is scrapeable.
-    // After activating, FormSubmit issues an alias (formsubmit.co/ajax/<hash>)
-    // that relays to the same inbox without publishing it — swap it in below
-    // and nothing else needs to change.
-    var ENQUIRY_ENDPOINT = "https://formsubmit.co/ajax/roy@steerconstruction.com";
-    var CONTACT_FALLBACK = "roy@steerconstruction.com";
-    var HONEYPOT_FIELD = "_honey";
-
-    // The goal <select> submits terse values; the notification email is easier
-    // to read with the words the member actually chose.
-    var GOAL_LABELS = {
-      general: "Just get fit and feel better",
-      strength: "Get stronger",
-      weight: "Lose weight",
-      return: "Return after a break or injury",
-      performance: "Train for a sport or event",
-    };
-
-    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     var PHONE_RE = /^[+()\d\s-]{7,20}$/;
     // Local numbers run to 8 digits here and 10 with the country code; 7 is a
     // safe international floor that still rejects punctuation-only input.
@@ -437,11 +473,22 @@
           contactForm.reset();
         })
         .catch(function (error) {
-          // Never claim success we cannot verify — a swallowed failure here
-          // means an enquiry nobody follows up on. Give them another route.
+          // Never claim success we cannot verify. The relay is a third party
+          // that can be down, rate-limited or awaiting activation, so failure
+          // has to leave a route that depends on nothing but the visitor's own
+          // mail client — asking them to retype it into an email is how an
+          // enquiry gets abandoned. Hand them one prefilled and ready to send.
           formStatus.style.color = "var(--danger)";
-          formStatus.textContent =
-            "Sorry — that didn't send. Please email " + CONTACT_FALLBACK + " and we'll pick it up.";
+          formStatus.textContent = "Sorry — that didn't send. ";
+
+          var rescue = document.createElement("a");
+          rescue.href = buildEnquiryMailto(payload);
+          rescue.textContent = "Send it as an email instead";
+          formStatus.appendChild(rescue);
+          formStatus.appendChild(
+            document.createTextNode(" — it opens prefilled, nothing to retype.")
+          );
+
           if (window.console) console.error("Enquiry submission failed:", error);
         })
         .then(function () {
@@ -461,17 +508,137 @@
       event.preventDefault();
       var value = newsletterEmail.value.trim();
 
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) {
-        newsletterStatus.style.color = "#ff6b5e";
+      if (!EMAIL_RE.test(value)) {
+        newsletterStatus.classList.add("is-error");
         newsletterStatus.textContent = "Enter a valid email address.";
         newsletterEmail.focus();
         return;
       }
 
       console.log("Newsletter signup:", value);
-      newsletterStatus.style.color = "";
+      newsletterStatus.classList.remove("is-error");
       newsletterStatus.textContent = "You're on the list.";
       newsletterForm.reset();
     });
+  }
+
+  /* -------------------- 8. Starter-kit download capture ------------------- */
+  /* The low-commitment ask: one field, so it gets its own tiny handler rather
+     than a rule in the §6 array — there is no error paragraph per field to
+     drive, and success swaps the form out for a panel instead of printing a
+     line of status text. */
+  var kitForm = document.getElementById("kitForm");
+
+  if (kitForm) {
+    var kitEmail = document.getElementById("kitEmail");
+    var kitError = document.getElementById("kitError");
+    var kitStatus = document.getElementById("kitStatus");
+    var kitDone = document.getElementById("kitDone");
+    var kitDoneEmail = document.getElementById("kitDoneEmail");
+    var kitSubmit = kitForm.querySelector('button[type="submit"]');
+
+    function setKitError(message) {
+      kitError.textContent = message;
+      kitEmail.parentElement.classList.toggle("invalid", Boolean(message));
+      kitEmail.setAttribute("aria-invalid", String(Boolean(message)));
+    }
+
+    // Clear the error as soon as they start fixing it, matching §6's behaviour.
+    kitEmail.addEventListener("input", function () {
+      if (kitError.textContent) setKitError("");
+    });
+
+    kitForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var value = kitEmail.value.trim();
+
+      if (!EMAIL_RE.test(value)) {
+        setKitError("We need a working address to send the plan to.");
+        kitEmail.focus();
+        return;
+      }
+
+      // A bot that fills the trap gets the same confirmation a person does, so
+      // it has no signal to retry against — but nothing is sent.
+      if (kitForm.elements[HONEYPOT_FIELD] && kitForm.elements[HONEYPOT_FIELD].value) {
+        showKitDone(value);
+        return;
+      }
+
+      setKitError("");
+      kitSubmit.disabled = true;
+      kitStatus.classList.remove("is-error");
+      kitStatus.textContent = "Sending…";
+
+      window
+        .fetch(ENQUIRY_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            email: value,
+            _subject: "First Four Weeks download — " + value,
+            // This is what makes the confirmation panel true: FormSubmit mails
+            // the address that submitted, so the reader genuinely receives the
+            // link rather than only seeing it on screen.
+            _autoresponse:
+              "Here's your First Four Weeks plan: " +
+              GUIDE_URL +
+              "\n\nIt prints onto two sides of one sheet, or keep it on your phone.\n\n" +
+              "When you're ready to do it with a coach watching, your first week is free — " +
+              "just reply to this email.\n\n— Barbell Brigade",
+            _captcha: "false",
+          }),
+        })
+        .then(function (response) {
+          // FormSubmit answers 200 even when it refuses to deliver, and puts
+          // the real verdict in the body — same trap as §6.
+          return response
+            .json()
+            .catch(function () {
+              return {};
+            })
+            .then(function (data) {
+              if (!response.ok || String(data.success) !== "true") {
+                throw new Error(data.message || "HTTP " + response.status);
+              }
+            });
+        })
+        .then(function () {
+          showKitDone(value);
+        })
+        .catch(function (error) {
+          // The guide is a static page, so a failed POST costs them the emailed
+          // copy but not the plan itself. Hand the link over directly rather
+          // than asking them to retry for something already sitting there —
+          // built from nodes because it carries a real link, not just text.
+          kitStatus.classList.add("is-error");
+          kitStatus.textContent = "That didn't send, so we couldn't email your copy. ";
+
+          var rescue = document.createElement("a");
+          rescue.href = GUIDE_URL;
+          rescue.textContent = "Open the plan here";
+          kitStatus.appendChild(rescue);
+          kitStatus.appendChild(
+            document.createTextNode(" — or mail " + CONTACT_FALLBACK + " and we'll send it over.")
+          );
+
+          if (window.console) console.error("Starter kit submission failed:", error);
+        })
+        .then(function () {
+          kitSubmit.disabled = false;
+        });
+    });
+
+    function showKitDone(email) {
+      // textContent, never innerHTML: this string came from a form field.
+      kitDoneEmail.textContent = email;
+      kitStatus.textContent = "";
+      kitForm.hidden = true;
+      kitDone.hidden = false;
+      // Move focus into the panel — otherwise focus is left on a button that is
+      // no longer in the document and the swap goes unannounced.
+      kitDone.setAttribute("tabindex", "-1");
+      kitDone.focus();
+    }
   }
 })();

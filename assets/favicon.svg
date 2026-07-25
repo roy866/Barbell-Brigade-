@@ -1,8 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="14" fill="#0D0D0D"/>
-  <rect x="10" y="29" width="44" height="6" rx="3" fill="#FFFFFF"/>
-  <rect x="13" y="18" width="8" height="28" rx="3" fill="#C8FF00"/>
-  <rect x="43" y="18" width="8" height="28" rx="3" fill="#C8FF00"/>
-  <rect x="24" y="23" width="6" height="18" rx="2.5" fill="#FFFFFF"/>
-  <rect x="34" y="23" width="6" height="18" rx="2.5" fill="#FFFFFF"/>
+  <!-- Tile is --bg, bar is --text, plates are --accent. Literal values: a
+       favicon has no stylesheet. Keep in step with :root by hand. -->
+  <rect width="64" height="64" rx="14" fill="#0F1D2E"/>
+  <rect x="10" y="29" width="44" height="6" rx="3" fill="#F1EDE4"/>
+  <rect x="13" y="18" width="8" height="28" rx="3" fill="#F5B72E"/>
+  <rect x="43" y="18" width="8" height="28" rx="3" fill="#F5B72E"/>
+  <rect x="24" y="23" width="6" height="18" rx="2.5" fill="#F1EDE4"/>
+  <rect x="34" y="23" width="6" height="18" rx="2.5" fill="#F1EDE4"/>
 </svg>

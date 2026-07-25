@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- One page, one URL. The site is a single scrolling document, so the section
+     anchors (#programs, #pricing, …) are not separate URLs and must not be
+     listed here — a sitemap entry that resolves to the same page is a duplicate.
+     If the gym ever splits programs or locations onto their own pages, add them
+     here at the same time. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://roy866.github.io/Barbell-Brigade-/</loc>
+    <lastmod>2026-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

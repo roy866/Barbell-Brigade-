@@ -41,12 +41,16 @@ URL, hard-reload — otherwise you are testing the old file.
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | All page markup — nav, hero, stats, programs, coaches, pricing, schedule, testimonials, contact, footer |
-| `styles.css` | Design tokens + all styling, organised into 17 numbered sections |
-| `script.js` | Mobile nav, scroll spy, reveal animations, stat counters, carousel, form validation |
+| `index.html` | All page markup — nav, hero, stats, programs, coaches, pricing, FAQ, schedule, testimonials, starter kit, contact, footer. Also carries the JSON-LD structured data |
+| `styles.css` | Design tokens + all styling, organised into 19 numbered sections |
+| `script.js` | Mobile nav, scroll spy, reveal animations, stat counters, carousel, and the three forms |
+| `assets/first-session-guide.html` | The *First Four Weeks* plan — the download the starter-kit form sends. Standalone and print-styled; not part of the site's stylesheet |
 | `assets/logo.svg` | Standalone barbell logo (also inlined in the header so CSS can recolour it) |
 | `assets/favicon.svg` | Rounded-square version of the mark for the browser tab |
+| `assets/og-image.png` | 1200×630 social share card, rendered from HTML via Playwright |
 | `assets/screenshot.jpg` | The hero shot at the top of this README |
+| `robots.txt` | Allows the site, disallows `README.md` and the gated guide, points at the sitemap |
+| `sitemap.xml` | One entry, because the site is one URL. Section anchors are not separate pages |
 | `.mcp.json` | Registers the Playwright MCP server, used to retake that screenshot |
 
 ## Retaking the screenshot
@@ -84,7 +88,32 @@ picks up `--text` and `--accent`, so it recolours with the theme automatically.
 - Sections fade and rise into view via `IntersectionObserver`, staggered across grids
 - Stat counters animate from zero the first time they're on screen
 - Testimonial carousel with prev/next, dots, and 7-second autoplay that pauses on hover/focus
+- FAQ accordion built on native `<details>`, so it opens and closes with JavaScript switched off
 - Contact form validates name, email, phone and goal inline, and focuses the first error
+- Starter-kit form takes an email and swaps itself for a panel with the download and a next step
+
+## SEO
+
+The page is a local business listing as much as a brochure, so most of the search work is in the
+`<head>` rather than the copy:
+
+- **Title and description** lead with `strength gym for beginners in Singapore` and keep the brand
+  at the end. Nobody searches the gym by name until after they have joined.
+- **Structured data** — a `HealthClub` node (address, hours, phone, the three membership offers), a
+  `WebSite` node, and a `FAQPage` built from the FAQ section. Every value is duplicated from visible
+  copy on purpose: Google discards markup that claims things the page does not say, so **changing a
+  price, an opening hour or an FAQ answer means changing it in two places.**
+- **Deliberately absent:** `aggregateRating` and `geo`. There are no real reviews or a surveyed
+  location behind this build, and inventing either is the one schema mistake that earns a manual
+  action rather than just being ignored.
+- **`og:image`** is an absolute URL to a 1200×630 PNG. Relative paths and SVGs both render as a
+  blank card on every platform, which is what the previous `assets/logo.svg` was doing.
+- **The hero image** carries a `srcset`, because it is the Largest Contentful Paint element and a
+  phone was downloading the 1920px file for a backdrop it can barely see.
+
+The structural ceiling is that this is one page: one URL can realistically rank for one cluster of
+queries. Splitting programs or a second location onto their own pages is the next real gain, and
+`sitemap.xml` has a note where those entries would go.
 
 ## Accessibility notes
 
@@ -113,11 +142,18 @@ editing that one block rebrands the whole site:
 
   --font-display: "Oswald", "Arial Narrow", sans-serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, …;  /* data — the sets-and-reps grid on the program card */
 
   --radius: 4px;          /* raise for a softer look */
   --speed: 220ms;         /* global transition duration */
 }
 ```
+
+One group is deliberately outside that scheme. The `--paper-*` tokens and `--plate-red` colour the
+program card in the starter-kit section, which stands in for a physical printed training sheet — it
+is meant to stay light when the rest of the page is dark, so it does not follow a rebrand of `--bg`
+and `--text`. Rebrand it by editing those tokens directly. `--plate-red` is the colour of a 25 kg
+Olympic plate and appears exactly once, as the margin rule down the card.
 
 Swapping the fonts also means updating the Google Fonts `<link>` in `index.html`'s `<head>`. If
 you go light instead of dark, change `color-scheme: dark` in the same block so form controls and
@@ -188,8 +224,10 @@ whichever layer introduces it.
 
 ## Wiring it up for real
 
-1. **The contact form is live** and posts to [FormSubmit](https://formsubmit.co), which relays to
-   the address in `ENQUIRY_ENDPOINT` at the top of `script.js` section 6. Two things to know:
+1. **The contact form and the starter-kit form are both live** and post to
+   [FormSubmit](https://formsubmit.co), which relays to the address in `ENQUIRY_ENDPOINT` at the top
+   of `script.js` — shared by sections 6 and 8, so it only has to be changed once. Two things to
+   know:
 
    - **The first submission must be confirmed.** FormSubmit emails an activation link to that
      address on the very first POST. Until someone clicks it, submissions are accepted by the
@@ -201,12 +239,28 @@ whichever layer introduces it.
    A failed send never shows the success message — it tells the visitor to email
    `CONTACT_FALLBACK` instead, so a silent failure can't swallow an enquiry.
 
+   The starter-kit form additionally sends FormSubmit's `_autoresponse`, which is what mails the
+   reader the link to `assets/first-session-guide.html`. That is the only reason the confirmation
+   panel can honestly say the plan is on its way — **delete the field and the panel starts lying.**
+   If the POST fails, the panel is never shown; the visitor gets the guide link inline instead,
+   since the guide is a static page and their copy does not depend on the request succeeding.
+
 2. **The newsletter signup still only `console.log`s** its payload (`script.js` section 7). It
-   needs the same treatment before launch.
+   needs the same treatment before launch — and it is worth deciding whether it should exist at
+   all, since it now competes with the starter-kit form for the same low-commitment reader.
 3. **Images** — every photo is a `picsum.photos` placeholder. Replace the `src` values in
    `index.html` with real gym and coach photography at the same aspect ratios (programs are 4:3,
    coaches 4:5, hero 16:10 or wider). The map block in the contact section is a styled `div` —
    drop a Google Maps embed iframe in its place.
 
-Coach names, member quotes, prices and the timetable are all illustrative — replace with the
-real thing.
+4. **`assets/og-image.png` bakes in one of those placeholder photos**, so it needs re-rendering
+   once real photography lands — it is a screenshot of an HTML card at a 1200×630 viewport, not a
+   hand-made image.
+5. **`assets/first-session-guide.html` is real, usable programming**, but it is generic beginner
+   programming rather than this gym's actual on-ramp. A coach should read it before it goes out
+   under their name, and the closing note already tells readers it is guidance, not medical advice.
+
+Coach names, member quotes, prices, the timetable and the "1,200+ members" line under the
+starter-kit form are all illustrative — replace with the real thing. The membership prices in
+particular now appear in three places: the pricing cards, the FAQ answer, and the `hasOfferCatalog`
+block in the JSON-LD.
