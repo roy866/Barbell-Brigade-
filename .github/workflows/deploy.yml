@@ -29,8 +29,13 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
+      # enablement turns Pages on and points it at Actions via the API, so the
+      # repo needs no manual Settings change. Without it this step fails on a
+      # repo where Pages was never enabled.
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       # No build step — but the repo root holds docs and CI config that have no
       # business being served, so mirror everything except those into _site.
